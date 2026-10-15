@@ -3,28 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VinDev // PC Custom, Soporte Térmico, Optimización & Web — 302 430 1771</title>
+  <title>VinDev // Ingeniería PC, Optimización Extrema & Desarrollo Web</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Tipografías Técnicas: Space Grotesk, Inter & JetBrains Mono -->
+  <!-- Tipografías: Space Grotesk, Inter & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
 
   <style>
     /* ==========================================================================
-       SISTEMA VISUAL CYBER-HUD 3D (CERO CAJAS GENÉRICAS / ALTO CONTRASTE NEÓN)
+       SISTEMA VISUAL CYBER-HUD 3D // PALETA NEÓN MULTICROMÁTICA DE ALTO IMPACTO
        ========================================================================== */
     :root {
-      --bg-abyss: #040509;
-      --bg-panel: rgba(7, 10, 20, 0.78);
+      --bg-abyss: #030407;
+      --bg-panel: rgba(7, 10, 19, 0.78);
       --fg-main: #f8fafc;
       --cyan: #00f5ff;
       --magenta: #ff0055;
       --violet: #a855f7;
       --emerald: #00ff9d;
-      --amber: #ffaa00;
-      --active-accent: #00f5ff;
+      --amber: #ffb800;
       --line-subtle: rgba(255, 255, 255, 0.09);
       --ease-cyber: cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -36,15 +35,11 @@
 
     body {
       background-color: var(--bg-abyss);
-      background-image:
-        radial-gradient(circle at 12% 18%, rgba(0, 245, 255, 0.12), transparent 36%),
-        radial-gradient(circle at 88% 22%, rgba(255, 0, 85, 0.11), transparent 36%),
-        radial-gradient(circle at 50% 80%, rgba(168, 85, 247, 0.10), transparent 42%);
       color: var(--fg-main);
       font-family: 'Inter', sans-serif;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      perspective: 1200px;
+      perspective: 1400px;
     }
 
     .font-display {
@@ -63,122 +58,120 @@
     .hud-line-l { border-left: 1px solid var(--line-subtle); }
     .hud-line-r { border-right: 1px solid var(--line-subtle); }
 
-    /* Recorte geométrico angular (Chamfered Cut) */
-    .clip-chamfer {
-      clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px));
-    }
-
-    .clip-chamfer-sm {
-      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
-    }
-
     /* ==========================================================================
-       MOTOR DE PERSPECTIVA Y MOVIMIENTO 3D REAL (TILT + PARALLAX Z)
+       MOTOR DE MOVIMIENTO 3D (TILT + PROFUNDIDAD Z + ANILLOS HOLOGRÁFICOS)
        ========================================================================== */
-    .tilt-3d {
+    .scene-3d {
+      perspective: 1200px;
       transform-style: preserve-3d;
-      will-change: transform;
-      transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease;
     }
 
-    .layer-z-10 { transform: translateZ(16px); }
-    .layer-z-20 { transform: translateZ(28px); }
-    .layer-z-30 { transform: translateZ(44px); }
+    .card-3d {
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.22s ease-out, box-shadow 0.35s ease, border-color 0.35s ease;
+      will-change: transform;
+    }
 
-    /* Anillos Holográficos 3D Giratorios */
-    @keyframes spin3D-A {
+    .card-3d-layer {
+      transform: translateZ(28px);
+      transform-style: preserve-3d;
+    }
+
+    .card-3d-deep {
+      transform: translateZ(48px);
+    }
+
+    /* Anillos 3D giratorios en el Hero */
+    @keyframes orbit3D-A {
       0%   { transform: rotateX(68deg) rotateY(12deg) rotateZ(0deg); }
       100% { transform: rotateX(68deg) rotateY(12deg) rotateZ(360deg); }
     }
-    @keyframes spin3D-B {
+    @keyframes orbit3D-B {
       0%   { transform: rotateX(24deg) rotateY(65deg) rotateZ(360deg); }
       100% { transform: rotateX(24deg) rotateY(65deg) rotateZ(0deg); }
     }
     @keyframes float3D {
       0%, 100% { transform: translateY(0px) rotateX(4deg); }
-      50%      { transform: translateY(-8px) rotateX(-4deg); }
+      50%      { transform: translateY(-10px) rotateX(-4deg); }
     }
 
     .holo-ring-a {
-      border: 1px dashed rgba(0, 245, 255, 0.45);
-      box-shadow: 0 0 25px rgba(0, 245, 255, 0.2), inset 0 0 25px rgba(0, 245, 255, 0.15);
-      animation: spin3D-A 14s linear infinite;
-      pointer-events: none;
+      animation: orbit3D-A 14s linear infinite;
     }
-
     .holo-ring-b {
-      border: 1px solid rgba(255, 0, 85, 0.4);
-      box-shadow: 0 0 25px rgba(255, 0, 85, 0.2);
-      animation: spin3D-B 18s linear infinite;
-      pointer-events: none;
+      animation: orbit3D-B 18s linear infinite;
     }
-
     .float-3d {
-      animation: float3D 4.5s ease-in-out infinite;
+      animation: float3D 5s ease-in-out infinite;
     }
 
-    /* Esquinas técnicas de precisión (HUD Brackets con Brillo Neón) */
+    /* Esquinas técnicas de precisión (HUD Brackets con brillo neón) */
     .hud-frame {
       position: relative;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(135deg, rgba(0, 245, 255, 0.04) 0%, rgba(168, 85, 247, 0.03) 50%, rgba(255, 0, 85, 0.04) 100%);
     }
     .hud-frame::before,
     .hud-frame::after {
       content: "";
       position: absolute;
-      width: 14px;
-      height: 14px;
+      width: 12px;
+      height: 12px;
       pointer-events: none;
+      transition: all 0.4s var(--ease-cyber);
       z-index: 30;
-      transition: all 0.35s var(--ease-cyber);
     }
     .hud-frame::before {
       top: -1px;
       left: -1px;
-      border-top: 2px solid var(--active-accent);
-      border-left: 2px solid var(--active-accent);
-      box-shadow: -4px -4px 12px rgba(0, 245, 255, 0.35);
+      border-top: 2px solid var(--cyan);
+      border-left: 2px solid var(--cyan);
+      box-shadow: -3px -3px 10px rgba(0, 245, 255, 0.35);
     }
     .hud-frame::after {
       bottom: -1px;
       right: -1px;
       border-bottom: 2px solid var(--magenta);
       border-right: 2px solid var(--magenta);
-      box-shadow: 4px 4px 12px rgba(255, 0, 85, 0.35);
+      box-shadow: 3px 3px 10px rgba(255, 0, 85, 0.35);
     }
     .hud-frame:hover::before,
     .hud-frame:hover::after {
-      width: 26px;
-      height: 26px;
+      width: 22px;
+      height: 22px;
     }
 
-    /* Botones Futuristas con Barrido Láser Neón */
+    /* Recorte geométrico angular futurista */
+    .clip-chamfer {
+      clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px));
+    }
+
+    /* Botones Cyber con gradiente reactivo */
     .btn-cyber {
       position: relative;
       display: inline-flex;
       align-items: center;
       gap: 0.75rem;
-      padding: 0.8rem 1.35rem;
+      padding: 0.8rem 1.4rem;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 600;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: #ffffff;
-      background: linear-gradient(90deg, rgba(0, 245, 255, 0.16) 0%, rgba(168, 85, 247, 0.10) 100%);
+      background: linear-gradient(90deg, rgba(0, 245, 255, 0.16) 0%, rgba(168, 85, 247, 0.12) 100%);
       border-left: 3px solid var(--cyan);
       border-bottom: 1px solid rgba(0, 245, 255, 0.45);
-      box-shadow: 0 0 20px rgba(0, 245, 255, 0.12);
-      transition: all 0.3s var(--ease-cyber);
+      transition: all 0.35s var(--ease-cyber);
       overflow: hidden;
     }
     .btn-cyber::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, rgba(0, 245, 255, 0.35), rgba(255, 0, 85, 0.25), transparent);
+      background: linear-gradient(90deg, rgba(0, 245, 255, 0.32), rgba(255, 0, 85, 0.25), transparent);
       transform: translateX(-100%);
-      transition: transform 0.4s var(--ease-cyber);
+      transition: transform 0.45s var(--ease-cyber);
     }
     .btn-cyber:hover::before {
       transform: translateX(0);
@@ -186,44 +179,33 @@
     .btn-cyber:hover {
       border-left-color: var(--magenta);
       border-bottom-color: var(--cyan);
-      padding-left: 1.65rem;
-      box-shadow: 0 0 28px rgba(0, 245, 255, 0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px -6px rgba(0, 245, 255, 0.4);
       text-shadow: 0 0 10px rgba(0, 245, 255, 0.8);
     }
 
-    .btn-cyber-magenta {
-      background: linear-gradient(90deg, rgba(255, 0, 85, 0.22) 0%, rgba(168, 85, 247, 0.14) 100%);
-      border-left: 3px solid var(--magenta);
-      border-bottom: 1px solid rgba(255, 0, 85, 0.5);
-      box-shadow: 0 0 22px rgba(255, 0, 85, 0.2);
-    }
-    .btn-cyber-magenta:hover {
-      border-left-color: var(--cyan);
-      box-shadow: 0 0 30px rgba(255, 0, 85, 0.45);
-    }
-
-    /* Escaneo Láser Vertical Multicromático */
+    /* Barrido Láser Multicolor */
     @keyframes laserScan {
-      0%   { top: -8%; opacity: 0; }
+      0%   { top: -10%; opacity: 0; }
       15%  { opacity: 1; }
       85%  { opacity: 1; }
-      100% { top: 104%; opacity: 0; }
+      100% { top: 105%; opacity: 0; }
     }
     .laser-line {
       position: absolute;
       left: 0;
       right: 0;
       height: 2px;
-      background: linear-gradient(90deg, transparent, var(--cyan), #ffffff, var(--magenta), transparent);
-      box-shadow: 0 0 20px 3px var(--cyan);
-      animation: laserScan 2.8s infinite ease-in-out;
+      background: linear-gradient(90deg, transparent, var(--magenta), var(--cyan), #ffffff, var(--cyan), transparent);
+      box-shadow: 0 0 20px 2px var(--cyan);
+      animation: laserScan 3s infinite ease-in-out;
       pointer-events: none;
     }
 
-    /* Ecualizador de Telemetría */
+    /* Ondas de telemetría en vivo */
     @keyframes eqPulse {
-      0%, 100% { transform: scaleY(0.25); opacity: 0.6; }
-      50%      { transform: scaleY(1.1); opacity: 1; }
+      0%, 100% { transform: scaleY(0.25); opacity: 0.5; }
+      50%      { transform: scaleY(1); opacity: 1; }
     }
     .telemetry-bar {
       width: 3px;
@@ -233,18 +215,18 @@
       animation: eqPulse 1s infinite ease-in-out;
     }
 
-    /* Revelado con rotación 3D al hacer scroll */
+    /* Revelado 3D al hacer scroll */
     .cyber-reveal {
       opacity: 0;
-      transform: perspective(900px) translateY(28px) rotateX(10deg);
+      transform: translateY(28px) rotateX(10deg);
       transition: opacity 0.75s var(--ease-cyber), transform 0.75s var(--ease-cyber);
     }
     .cyber-reveal.is-visible {
       opacity: 1;
-      transform: perspective(900px) translateY(0) rotateX(0deg);
+      transform: translateY(0) rotateX(0deg);
     }
 
-    /* Slider de Rendimiento Neón */
+    /* Slider futurista bicolor */
     input[type="range"].cyber-slider {
       -webkit-appearance: none;
       appearance: none;
@@ -252,13 +234,12 @@
       height: 4px;
       background: linear-gradient(90deg, var(--magenta), var(--violet), var(--cyan), var(--emerald));
       outline: none;
-      box-shadow: 0 0 15px rgba(0, 245, 255, 0.3);
     }
     input[type="range"].cyber-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
       width: 18px;
-      height: 32px;
+      height: 30px;
       background: #ffffff;
       border: 2px solid var(--cyan);
       box-shadow: 0 0 18px var(--cyan), 0 0 8px var(--magenta);
@@ -266,92 +247,81 @@
       transition: transform 0.2s ease;
     }
     input[type="range"].cyber-slider::-webkit-slider-thumb:hover {
-      transform: scaleY(1.25);
+      transform: scale(1.2);
     }
 
-    /* Opciones Interactivas HUD */
+    /* Opciones interactivas */
     .hud-option {
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       border-left: 3px solid transparent;
-      background: rgba(255, 255, 255, 0.015);
       transition: all 0.28s var(--ease-cyber);
     }
     .hud-option:hover {
       border-left-color: var(--magenta);
-      background: linear-gradient(90deg, rgba(255, 0, 85, 0.12), transparent);
-      transform: translateX(6px);
+      background: linear-gradient(90deg, rgba(255, 0, 85, 0.08), transparent);
+      padding-left: 0.9rem;
     }
     .hud-option.active {
       border-left-color: var(--cyan);
-      border-bottom-color: rgba(0, 245, 255, 0.5);
-      background: linear-gradient(90deg, rgba(0, 245, 255, 0.18), rgba(168, 85, 247, 0.08), transparent);
+      border-bottom-color: rgba(0, 245, 255, 0.45);
+      background: linear-gradient(90deg, rgba(0, 245, 255, 0.15), rgba(168, 85, 247, 0.06), transparent);
       color: #ffffff;
-      box-shadow: -6px 0 18px -4px rgba(0, 245, 255, 0.5);
     }
   </style>
 </head>
-<body class="selection:bg-[#ff0055] selection:text-white">
+<body class="selection:bg-[#ff0055] selection:text-white pt-16 sm:pt-20">
 
   <!-- ==========================================================================
-       FONDO 3D EN MOVIMIENTO (NÚCLEO HIPER-WIREFRAME 3D + RED DE PROFUNDIDAD Z)
+       FONDO 3D INTERACTIVO (NÚCLEO HOLOGRÁFICO + TÚNEL DE PARTÍCULAS EN EJE Z)
        ========================================================================== -->
-  <canvas id="cyber-canvas-3d" class="fixed inset-0 pointer-events-none z-0 opacity-85"></canvas>
+  <canvas id="cyber-canvas-3d" class="fixed inset-0 pointer-events-none z-0 opacity-75"></canvas>
 
-  <!-- Barra de progreso láser multicromática superior -->
-  <div class="fixed top-0 left-0 right-0 h-[3px] z-[60] bg-white/5">
-    <div id="scroll-laser-bar" class="h-full bg-gradient-to-r from-[#00f5ff] via-[#a855f7] to-[#ff0055] shadow-[0_0_16px_#00f5ff] w-0 transition-all duration-75"></div>
-  </div>
+  <!-- Luces de ambiente neón fijas -->
+  <div class="fixed -top-40 -left-40 w-96 h-96 bg-[#00f5ff]/10 blur-[150px] pointer-events-none z-0"></div>
+  <div class="fixed top-1/3 -right-40 w-96 h-96 bg-[#ff0055]/10 blur-[160px] pointer-events-none z-0"></div>
+  <div class="fixed -bottom-40 left-1/3 w-96 h-96 bg-[#a855f7]/10 blur-[150px] pointer-events-none z-0"></div>
 
   <!-- ==========================================================================
-       BOTÓN FLOTANTE HUD WHATSAPP (302 430 1771) - CERO GENÉRICO
+       1. HEADER TÉCNICO HUD 100% ESTÁTICO / FIJO AL HACER SCROLL
+       (Único lugar superior con el número 302 430 1771 + Título + Cotizar)
        ========================================================================== -->
-  <a
-    href="https://wa.me/573024301771?text=Hola%20VinDev,%20necesito%20asesor%C3%ADa%20para%20mi%20PC%20/%20P%C3%A1gina%20Web."
-    target="_blank"
-    rel="noopener noreferrer"
-    class="fixed bottom-5 right-5 z-50 hud-frame clip-chamfer-sm bg-[#060913]/95 backdrop-blur-md px-4 py-3 flex items-center gap-3 group border border-[#00ff9d]/40 shadow-[0_0_25px_rgba(0,255,157,0.25)] hover:shadow-[0_0_35px_rgba(0,245,255,0.55)] transition-all"
-  >
-    <span class="w-2.5 h-2.5 bg-[#00ff9d] shadow-[0_0_12px_#00ff9d] animate-ping"></span>
-    <div class="font-mono-hud text-left">
-      <span class="block text-[9px] text-[#00ff9d] tracking-widest uppercase">WHATSAPP DIRECTO</span>
-      <span class="block text-xs sm:text-sm font-bold text-white group-hover:text-[#00f5ff] transition-colors">302 430 1771 ↗</span>
+  <header class="fixed top-0 left-0 right-0 z-[100] bg-[#030407]/95 backdrop-blur-xl border-b border-[#00f5ff]/25 shadow-[0_10px_30px_rgba(0,0,0,0.85)]">
+    <!-- Barra de progreso láser integrada en el borde superior del header -->
+    <div class="w-full h-[2px] bg-white/5">
+      <div id="scroll-laser-bar" class="h-full bg-gradient-to-r from-[#00f5ff] via-[#ff0055] to-[#00ff9d] shadow-[0_0_14px_#00f5ff] w-0 transition-all duration-75"></div>
     </div>
-  </a>
 
-  <!-- ==========================================================================
-       1. HEADER TÉCNICO HUD (VINDEV + 302 430 1771)
-       ========================================================================== -->
-  <header class="fixed top-0 inset-x-0 z-50 bg-[#040509]/85 backdrop-blur-md hud-line-b">
-    <div class="max-w-[1440px] mx-auto px-5 md:px-12 h-16 flex items-center justify-between">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-8 md:px-12 h-16 sm:h-[72px] flex items-center justify-between gap-3">
       <!-- Marca VinDev -->
-      <a href="#" class="flex items-center gap-3.5 group">
-        <div class="w-3 h-3 bg-gradient-to-tr from-[#00f5ff] to-[#ff0055] shadow-[0_0_14px_#00f5ff] group-hover:rotate-45 transition-transform"></div>
-        <span id="nav-brand" class="font-display font-bold text-xl tracking-tight text-white">VinDev</span>
-        <span class="hidden xl:inline-block font-mono-hud text-[11px] text-[#00f5ff] border-l border-white/15 pl-3 tracking-wider">
-          PC CUSTOM · SOPORTE · WEB
+      <a href="#" class="flex items-center gap-3 group shrink-0">
+        <div class="w-3 h-3 bg-gradient-to-br from-[#00f5ff] to-[#ff0055] shadow-[0_0_12px_#00f5ff] group-hover:rotate-90 transition-transform duration-300"></div>
+        <span class="font-display font-bold text-xl sm:text-2xl tracking-tight text-white">VinDev</span>
+        <span class="hidden xl:inline-block font-mono-hud text-[11px] text-[#00f5ff] border-l border-white/15 pl-4 tracking-widest">
+          PC LAB · OPTIMIZACIÓN · WEB
         </span>
       </a>
 
-      <!-- Navegación con Decodificación -->
-      <nav class="hidden lg:flex items-center gap-7 font-mono-hud text-xs uppercase tracking-widest text-slate-300">
+      <!-- Navegación rápida -->
+      <nav class="hidden lg:flex items-center gap-6 font-mono-hud text-xs uppercase tracking-widest text-slate-300">
         <a href="#escaner" class="hover:text-[#00f5ff] transition-colors scramble-hover" data-text="01. Escáner">// 01. Escáner</a>
         <a href="#servicios" class="hover:text-[#ff0055] transition-colors scramble-hover" data-text="02. Servicios">// 02. Servicios</a>
-        <a href="#rendimiento" class="hover:text-[#00ff9d] transition-colors scramble-hover" data-text="03. Potencia">// 03. Potencia</a>
-        <a href="#cotizador" class="hover:text-[#a855f7] transition-colors scramble-hover" data-text="04. Cotizar">// 04. Cotizar</a>
+        <a href="#builds" class="hover:text-[#a855f7] transition-colors scramble-hover" data-text="03. Setups">// 03. Setups</a>
+        <a href="#rendimiento" class="hover:text-[#00ff9d] transition-colors scramble-hover" data-text="04. Potencia">// 04. Potencia</a>
       </nav>
 
-      <!-- Línea Directa 302 430 1771 + Acción Rápida -->
-      <div class="flex items-center gap-4">
+      <!-- Celular Visible Siempre + Botón Cotizar Fijo -->
+      <div class="flex items-center gap-2.5 sm:gap-4 shrink-0">
         <a
-          href="https://wa.me/573024301771?text=Hola%20VinDev,%20quiero%20cotizar%20un%20servicio."
+          href="https://wa.me/573024301771?text=Hola%20VinDev,%20quiero%20cotizar%20un%20servicio"
           target="_blank"
           rel="noopener noreferrer"
-          class="hidden sm:flex items-center gap-2 font-mono-hud text-xs text-[#00ff9d] hover:text-[#00f5ff] transition-colors px-3 py-1.5 bg-[#00ff9d]/10 border-l-2 border-[#00ff9d]"
+          class="flex items-center gap-2 font-mono-hud text-[11px] sm:text-xs text-[#00ff9d] bg-[#00ff9d]/10 border border-[#00ff9d]/40 px-2.5 sm:px-3.5 py-2 hover:bg-[#00ff9d]/20 hover:shadow-[0_0_15px_rgba(0,255,157,0.35)] transition-all"
+          title="Escribir por WhatsApp al 302 430 1771"
         >
-          <span class="w-1.5 h-1.5 bg-[#00ff9d] animate-ping"></span>
-          <span>CEL: 302 430 1771</span>
+          <span class="w-2 h-2 bg-[#00ff9d] animate-ping"></span>
+          <span class="font-semibold tracking-wider">302 430 1771</span>
         </a>
-        <a href="#cotizador" class="btn-cyber !py-2 !px-4">
+        <a href="#cotizador" class="btn-cyber !py-2 !px-3.5 sm:!px-5">
           <span>Cotizar</span>
           <span class="text-[#00f5ff]">↗</span>
         </a>
@@ -360,201 +330,179 @@
   </header>
 
   <!-- ==========================================================================
-       2. HERO SECTION 3D + TELEMETRÍA DE ALTO IMPACTO (TEXTO ULTRA CONCISO)
+       2. HERO SECTION 3D // IMPACTO VISUAL DIRECTO Y MENOS TEXTO
        ========================================================================== -->
-  <section class="relative z-10 pt-24 md:pt-32 pb-16 max-w-[1440px] mx-auto px-5 md:px-12">
-    <!-- Barra de Telemetría Superior -->
+  <section class="relative z-10 pt-8 md:pt-14 pb-20 max-w-[1440px] mx-auto px-6 md:px-12 scene-3d">
+    
+    <!-- Barra de Telemetría Limpia (Sin repetir teléfono) -->
     <div class="grid grid-cols-1 sm:grid-cols-3 hud-line-b pb-4 mb-10 gap-2 font-mono-hud text-[11px] uppercase tracking-widest">
       <div class="flex items-center gap-2 text-[#00f5ff]">
-        <span class="w-2 h-2 bg-[#00f5ff] shadow-[0_0_8px_#00f5ff]"></span>
-        <span>VINDEV CORE 3D // ACTIVO</span>
+        <span>◈ SISTEMA VINDEV // 3D ENGINE ONLINE</span>
       </div>
-      <div class="text-slate-400 sm:text-center">HARDWARE · OPTIMIZACIÓN · WEB DESIGN</div>
-      <div class="sm:text-right text-[#ff0055] font-semibold">
-        LÍNEA DIRECTA &amp; WHATSAPP: <a href="tel:+573024301771" class="text-white hover:text-[#00f5ff] underline">302 430 1771</a>
+      <div class="text-slate-400 sm:text-center">HARDWARE · SOFTWARE · GAMING · WEB</div>
+      <div class="sm:text-right text-[#00ff9d]">
+        GARANTÍA REAL // DIAGNÓSTICO DE PRECISIÓN
       </div>
     </div>
 
-    <!-- Titular + Mensaje Directo -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end mb-12">
+    <!-- Titular + Subtítulo Ultracorto -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end mb-14">
       <div class="lg:col-span-8 space-y-4">
         <div class="inline-flex items-center gap-2 font-mono-hud text-xs text-[#ff0055] tracking-widest uppercase bg-[#ff0055]/10 px-3 py-1 border-l-2 border-[#ff0055]">
-          <span>[ INGENIERÍA DE PRECISIÓN SIN RODEOS ]</span>
+          <span>[ INGENIERÍA DE ALTO RENDIMIENTO ]</span>
         </div>
 
         <h1 class="font-display text-5xl sm:text-7xl xl:text-[5.4rem] font-bold leading-[0.92] tracking-tight text-white">
-          <span class="block scramble-init">POTENCIA EXTREMA</span>
-          <span class="block text-transparent bg-clip-text bg-gradient-to-r from-[#00f5ff] via-[#a855f7] to-[#ff0055]">
+          <span class="block scramble-init">MÁXIMO PODER</span>
+          <span class="block text-transparent bg-clip-text bg-gradient-to-r from-[#00f5ff] via-[#ff0055] to-[#00ff9d]">
             PARA TU PC &amp; WEB.
           </span>
         </h1>
       </div>
 
-      <!-- 1 Sola Frase de Impacto + CTAs -->
       <div class="lg:col-span-4 lg:pl-8 hud-line-l space-y-6 cyber-reveal">
-        <p class="text-slate-200 text-base sm:text-lg leading-snug font-normal">
-          Armado a medida, mantenimiento térmico extremo, upgrades <span class="text-[#00f5ff] font-medium">SSD/RAM</span> y páginas web veloces.
+        <p class="text-slate-200 text-base sm:text-lg leading-snug font-light">
+          Armado a medida, mantenimiento térmico extremo, upgrades de velocidad y diseño web futurista. <strong class="text-[#00f5ff] font-medium">Sin rodeos.</strong>
         </p>
         <div class="flex flex-wrap items-center gap-4">
           <a href="#cotizador" class="btn-cyber">
-            <span>Cotizar en 3 Pasos</span>
-            <span class="text-[#00f5ff]">↗</span>
+            <span>Iniciar Cotización</span>
+            <span class="text-[#00ff9d]">⚡</span>
           </a>
-          <a
-            href="https://wa.me/573024301771?text=Hola%20VinDev,%20quiero%20asesor%C3%ADa%20r%C3%A1pida."
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn-cyber btn-cyber-magenta"
-          >
-            <span>WhatsApp 302 430 1771</span>
-            <span>⚡</span>
+          <a href="#escaner" class="font-mono-hud text-xs uppercase tracking-widest text-slate-300 hover:text-[#00f5ff] transition-colors py-2 border-b border-white/20 hover:border-[#00f5ff]">
+            [ Escáner 3D ↓ ]
           </a>
         </div>
       </div>
     </div>
 
-    <!-- 4 Indicadores Visuales Rápidos con Efecto 3D Tilt -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-      <div class="tilt-3d hud-frame bg-[#070b16]/85 p-5 border-l-2 border-l-[#00f5ff]">
-        <div class="layer-z-20">
-          <span class="font-mono-hud text-[10px] text-[#00f5ff] uppercase tracking-widest block">01 // PC CUSTOM</span>
-          <span class="font-display text-2xl sm:text-3xl font-bold text-white mt-1 block">100% Exacto</span>
-          <span class="text-xs text-slate-400">Cero cuellos de botella</span>
+    <!-- 4 Tarjetas 3D Interactivas de Métricas Rápidas -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+      <div class="card-3d hud-frame p-5 bg-[#070b14]/85 border border-white/5">
+        <div class="card-3d-layer">
+          <span class="font-mono-hud text-[10px] text-[#00f5ff] uppercase tracking-widest block mb-1">01 // ENSAMBLE PRO</span>
+          <span class="font-display text-2xl sm:text-3xl font-bold text-white">100% Exacto</span>
+          <span class="block text-xs text-slate-400 mt-1">Cero cuellos de botella</span>
         </div>
       </div>
 
-      <div class="tilt-3d hud-frame bg-[#070b16]/85 p-5 border-l-2 border-l-[#ff0055]">
-        <div class="layer-z-20">
-          <span class="font-mono-hud text-[10px] text-[#ff0055] uppercase tracking-widest block">02 // TÉRMICO PRO</span>
-          <span class="font-display text-2xl sm:text-3xl font-bold text-white mt-1 block">-25°C Menos</span>
-          <span class="text-xs text-slate-400">Limpieza + Pasta Pro</span>
+      <div class="card-3d hud-frame p-5 bg-[#070b14]/85 border border-white/5">
+        <div class="card-3d-layer">
+          <span class="font-mono-hud text-[10px] text-[#ff0055] uppercase tracking-widest block mb-1">02 // TEMPERATURA</span>
+          <span class="font-display text-2xl sm:text-3xl font-bold text-white">-25°C Menos</span>
+          <span class="block text-xs text-slate-400 mt-1">Limpieza + Pasta Pro</span>
         </div>
       </div>
 
-      <div class="tilt-3d hud-frame bg-[#070b16]/85 p-5 border-l-2 border-l-[#00ff9d]">
-        <div class="layer-z-20">
-          <span class="font-mono-hud text-[10px] text-[#00ff9d] uppercase tracking-widest block">03 // UPGRADE &amp; FPS</span>
-          <span class="font-display text-2xl sm:text-3xl font-bold text-white mt-1 block">10x Rápido</span>
-          <span class="text-xs text-slate-400">NVMe + Windows limpio</span>
+      <div class="card-3d hud-frame p-5 bg-[#070b14]/85 border border-white/5">
+        <div class="card-3d-layer">
+          <span class="font-mono-hud text-[10px] text-[#00ff9d] uppercase tracking-widest block mb-1">03 // VELOCIDAD</span>
+          <span class="font-display text-2xl sm:text-3xl font-bold text-white">10x Rápido</span>
+          <span class="block text-xs text-slate-400 mt-1">SSD NVMe + Win Optimizado</span>
         </div>
       </div>
 
-      <div class="tilt-3d hud-frame bg-[#070b16]/85 p-5 border-l-2 border-l-[#a855f7]">
-        <div class="layer-z-20">
-          <span class="font-mono-hud text-[10px] text-[#a855f7] uppercase tracking-widest block">04 // PÁGINAS WEB</span>
-          <span class="font-display text-2xl sm:text-3xl font-bold text-white mt-1 block">Full 3D &amp; Móvil</span>
-          <span class="text-xs text-slate-400">Conectadas a WhatsApp</span>
+      <div class="card-3d hud-frame p-5 bg-[#070b14]/85 border border-white/5">
+        <div class="card-3d-layer">
+          <span class="font-mono-hud text-[10px] text-[#a855f7] uppercase tracking-widest block mb-1">04 // PÁGINAS WEB</span>
+          <span class="font-display text-2xl sm:text-3xl font-bold text-white">Full 3D / Móvil</span>
+          <span class="block text-xs text-slate-400 mt-1">Diseño que vende</span>
         </div>
       </div>
     </div>
 
-    <!-- Visor Holográfico 3D Principal con Anillos 3D y Movimiento al Cursor -->
-    <div class="tilt-3d hud-frame relative w-full h-[42vh] sm:h-[54vh] overflow-hidden bg-[#050811] clip-chamfer shadow-[0_20px_60px_rgba(0,0,0,0.85)]">
+    <!-- Escenario 3D con Anillos Holográficos y Movimiento Reactivo -->
+    <div class="card-3d hud-frame relative w-full h-[44vh] sm:h-[56vh] overflow-hidden bg-slate-950 clip-chamfer">
       <div class="laser-line z-20"></div>
       <img
-        id="hero-hud-img"
         src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=2000&q=85"
-        onerror="this.src='https://placehold.co/1920x1080/040509/00f5ff?text=VINDEV+3D+CORE'"
+        onerror="this.src='https://placehold.co/1920x1080/030407/00f5ff?text=VINDEV+3D+CORE'"
         alt="VinDev Hardware y Desarrollo Web"
-        class="w-full h-full object-cover object-center opacity-75 scale-105 transition-transform duration-700"
+        class="w-full h-full object-cover object-center opacity-65 scale-105 transition-transform duration-700"
       />
-      <div class="absolute inset-0 bg-gradient-to-t from-[#040509] via-[#040509]/30 to-transparent"></div>
-      <div class="absolute inset-0 bg-gradient-to-r from-[#00f5ff]/10 via-transparent to-[#ff0055]/15 mix-blend-overlay"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#030407] via-[#030407]/30 to-transparent"></div>
 
-      <!-- Anillos 3D Giratorios en el Centro del Visor -->
-      <div class="absolute inset-0 flex items-center justify-center pointer-events-none layer-z-20">
-        <div class="w-56 h-56 sm:w-80 sm:h-80 holo-ring-a"></div>
-        <div class="absolute w-44 h-44 sm:w-64 sm:h-64 holo-ring-b"></div>
+      <!-- Anillos 3D Holográficos Flotantes en el Centro -->
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none scene-3d">
+        <div class="relative w-56 h-56 sm:w-72 sm:h-72 flex items-center justify-center">
+          <div class="absolute inset-0 border-2 border-[#00f5ff]/50 holo-ring-a shadow-[0_0_25px_rgba(0,245,255,0.4)]"></div>
+          <div class="absolute inset-4 border border-[#ff0055]/60 holo-ring-b shadow-[0_0_25px_rgba(255,0,85,0.4)]"></div>
+          <div class="font-mono-hud text-[11px] tracking-widest text-white bg-[#030407]/80 px-3 py-1 border border-[#00f5ff]/50 backdrop-blur-md">
+            VINDEV // CORE 3D
+          </div>
+        </div>
       </div>
 
-      <!-- Telemetría Flotante en Capa Z-30 -->
-      <div class="absolute inset-x-5 sm:inset-x-10 bottom-6 flex flex-wrap items-end justify-between gap-4 font-mono-hud text-xs layer-z-30">
-        <div class="space-y-1 bg-[#040509]/80 backdrop-blur-md px-4 py-2.5 border-l-2 border-[#00f5ff]">
-          <div class="flex items-center gap-2 text-[#00f5ff] font-semibold">
-            <span>▣ NÚCLEO DE INGENIERÍA // VINDEV</span>
-          </div>
-          <p class="text-slate-200 text-[11px]">ENSAMBLE · TEMPERATURA · APPS &amp; JUEGOS · WEB</p>
+      <!-- Telemetría Inferior -->
+      <div class="absolute inset-x-6 sm:inset-x-10 bottom-6 flex flex-wrap items-end justify-between gap-4 font-mono-hud text-xs card-3d-layer">
+        <div>
+          <div class="text-[#00f5ff] font-semibold">▣ LABORATORIO TÉCNICO &amp; DIGITAL</div>
+          <p class="text-slate-300">ENSAMBLE · TEMPERATURA · UPGRADES · JUEGOS · WEB</p>
         </div>
 
-        <div class="flex items-center gap-4 bg-[#040509]/80 backdrop-blur-md px-4 py-2.5 border-r-2 border-[#ff0055]">
+        <div class="flex items-center gap-4">
           <div class="flex items-end gap-1 h-5">
             <div class="telemetry-bar" style="animation-delay: 0.1s"></div>
-            <div class="telemetry-bar" style="animation-delay: 0.25s"></div>
+            <div class="telemetry-bar" style="animation-delay: 0.3s"></div>
+            <div class="telemetry-bar" style="animation-delay: 0.5s"></div>
+            <div class="telemetry-bar" style="animation-delay: 0.2s"></div>
             <div class="telemetry-bar" style="animation-delay: 0.4s"></div>
-            <div class="telemetry-bar" style="animation-delay: 0.15s"></div>
-            <div class="telemetry-bar" style="animation-delay: 0.35s"></div>
           </div>
-          <span class="text-white font-semibold">CEL / WA: 302 430 1771</span>
+          <span class="text-[#00ff9d]">ATENCIÓN INMEDIATA</span>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ==========================================================================
-       3. ESCÁNER INTERACTIVO 3D (DIAGNÓSTICO INSTANTÁNEO Y SIN EXCESO DE TEXTO)
+       3. ESCÁNER INTERACTIVO 3D (SÍNTOMAS DIRECTOS Y RÁPIDOS)
        ========================================================================== -->
-  <section id="escaner" class="relative z-10 hud-line-t bg-[#060914]/90 backdrop-blur-sm">
-    <div class="max-w-[1440px] mx-auto px-5 md:px-12 py-20">
+  <section id="escaner" class="relative z-10 hud-line-t bg-[#050811]/90 scene-3d">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 py-20">
       
       <div class="flex flex-wrap items-end justify-between gap-6 pb-10 hud-line-b">
         <div class="cyber-reveal">
-          <span class="font-mono-hud text-xs text-[#00f5ff] uppercase tracking-widest block mb-1">
-            // 01. DIAGNÓSTICO INTERACTIVO 3D
+          <span class="font-mono-hud text-xs text-[#00f5ff] uppercase tracking-widest block mb-2">
+            // 01. DIAGNÓSTICO INSTANTÁNEO
           </span>
           <h2 class="font-display text-3xl sm:text-5xl font-bold uppercase text-white">
-            ¿Qué presenta tu equipo hoy?
+            ¿Qué necesitas resolver hoy?
           </h2>
         </div>
         <div class="font-mono-hud text-xs text-[#ff0055]">
-          [ SELECCIONA UN SÍNTOMA PARA ESCANEAR ]
+          [ SELECCIONA TU CASO PARA CARGAR LA SOLUCIÓN ]
         </div>
       </div>
 
-      <!-- Panel Dividido del Escáner -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-10 items-center">
-        
-        <!-- 5 Triggers Concisos -->
-        <div class="lg:col-span-5 space-y-2" id="diagnostic-triggers">
-          <!-- Renderizado desde CONFIG.diagnostics -->
-        </div>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 pt-10 items-center">
+        <!-- Botones cortos -->
+        <div class="lg:col-span-5 space-y-2" id="diagnostic-triggers"></div>
 
-        <!-- Visor 3D del Resultado -->
-        <div class="lg:col-span-7 lg:pl-8">
-          <div id="scanner-panel" class="tilt-3d hud-frame p-6 sm:p-10 bg-[#050710]/95 relative overflow-hidden clip-chamfer shadow-[0_0_50px_rgba(0,245,255,0.12)]">
-            <div id="scanner-laser" class="laser-line"></div>
+        <!-- Visor 3D del Escáner -->
+        <div class="lg:col-span-7 lg:pl-10 hud-line-l">
+          <div id="scanner-panel" class="card-3d hud-frame p-6 sm:p-10 bg-[#04070e]/95 relative overflow-hidden border border-white/10">
+            <div class="laser-line"></div>
 
-            <div class="layer-z-20">
-              <div class="flex flex-wrap items-center justify-between gap-3 hud-line-b pb-4 mb-6 font-mono-hud text-xs">
-                <span id="scan-code" class="text-[#00f5ff] font-semibold">ANÁLISIS // CASO_01</span>
-                <span id="scan-status" class="text-[#00ff9d] bg-[#00ff9d]/10 px-2.5 py-1">● SOLUCIÓN INMEDIATA</span>
+            <div class="card-3d-layer">
+              <div class="flex flex-wrap items-center justify-between gap-4 hud-line-b pb-4 mb-5 font-mono-hud text-xs">
+                <span id="scan-code" class="text-[#00f5ff] font-bold">ANÁLISIS // CASO_01</span>
+                <span class="text-[#00ff9d]">● SOLUCIÓN LISTA</span>
               </div>
 
-              <h3 id="scan-title" class="font-display text-2xl sm:text-4xl font-bold text-white mb-3">
-                Diagnóstico del Sistema
-              </h3>
+              <h3 id="scan-title" class="font-display text-2xl sm:text-4xl font-bold text-white mb-3"></h3>
+              <p id="scan-diagnosis" class="text-slate-300 text-sm sm:text-base leading-relaxed font-light mb-6"></p>
 
-              <p id="scan-diagnosis" class="text-slate-300 text-sm sm:text-base leading-snug mb-7">
-                <!-- Frase directa -->
-              </p>
+              <!-- 3 Métricas Clave -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 hud-line-t hud-line-b py-5 mb-6" id="scan-bars"></div>
 
-              <!-- 3 Métricas de Impacto Visual -->
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 hud-line-t hud-line-b py-5 mb-7" id="scan-bars">
-                <!-- Barras dinámicas -->
-              </div>
-
-              <!-- Acción Directa -->
               <div class="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <span class="font-mono-hud text-[10px] text-slate-400 uppercase block">ACCIÓN RECOMENDADA:</span>
-                  <span id="scan-solution-tag" class="font-mono-hud text-sm text-[#00f5ff] font-bold"></span>
+                  <span class="font-mono-hud text-[10px] text-slate-400 uppercase block">ACCIÓN DIRECTA:</span>
+                  <span id="scan-solution-tag" class="font-mono-hud text-sm text-[#00ff9d] font-semibold"></span>
                 </div>
-                <button
-                  type="button"
-                  id="scan-action-btn"
-                  class="btn-cyber btn-cyber-magenta"
-                >
-                  <span>Cotizar Solución</span>
-                  <span>↗</span>
+                <button type="button" id="scan-action-btn" class="btn-cyber">
+                  <span>Cotizar esta Solución</span>
+                  <span class="text-[#00f5ff]">↗</span>
                 </button>
               </div>
             </div>
@@ -566,109 +514,124 @@
   </section>
 
   <!-- ==========================================================================
-       4. CATÁLOGO DE 5 SERVICIOS (HOLOGRAMA 3D + TAGS DIRECTOS)
+       4. CATÁLOGO DE 5 SERVICIOS EN 3D (TEXTO CORTO + TAGS VISUALES)
        ========================================================================== -->
-  <section id="servicios" class="relative z-10 hud-line-t">
-    <div class="max-w-[1440px] mx-auto px-5 md:px-12 py-20">
+  <section id="servicios" class="relative z-10 hud-line-t scene-3d">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 py-20">
       
-      <div class="flex flex-wrap items-end justify-between gap-6 pb-10 hud-line-b">
+      <div class="flex flex-wrap items-end justify-between gap-6 pb-12 hud-line-b">
         <div class="cyber-reveal">
-          <span class="font-mono-hud text-xs text-[#ff0055] uppercase tracking-widest block mb-1">
-            // 02. SERVICIOS PROFESIONALES VINDEV
+          <span class="font-mono-hud text-xs text-[#ff0055] uppercase tracking-widest block mb-2">
+            // 02. SERVICIOS PROFESIONALES
           </span>
-          <h2 class="font-display text-4xl sm:text-5xl font-bold uppercase text-white">
-            Soluciones directas. Cero relleno.
+          <h2 class="font-display text-4xl sm:text-6xl font-bold uppercase leading-none text-white">
+            Soluciones de Alto Nivel.
           </h2>
         </div>
-        <div class="font-mono-hud text-xs text-[#00f5ff]">
-          CLIC EN CUALQUIER SERVICIO PARA CONFIGURAR ↗
+        <div class="font-mono-hud text-xs text-slate-400">
+          TOCA CUALQUIER SERVICIO PARA CONFIGURARLO
         </div>
       </div>
 
-      <!-- Visor 3D Izquierdo + Lista Concisa Derecha -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 pt-10 items-start">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 pt-10 items-start">
         
         <!-- Visor Holográfico 3D Sticky -->
-        <div class="lg:col-span-5 lg:sticky lg:top-24">
-          <div class="tilt-3d hud-frame bg-[#060914]/90 p-5 space-y-4 clip-chamfer shadow-[0_15px_50px_rgba(0,0,0,0.8)]">
-            <div class="flex items-center justify-between font-mono-hud text-xs hud-line-b pb-3 layer-z-20">
+        <div class="lg:col-span-5 lg:sticky lg:top-24 space-y-4">
+          <div class="card-3d hud-frame p-4 bg-[#060913]/90 border border-white/10">
+            <div class="flex items-center justify-between font-mono-hud text-xs pb-3">
               <span id="stage-index" class="text-[#00f5ff] font-bold">SERVICIO // 01</span>
               <span id="stage-category" class="text-[#ff0055]">HARDWARE &amp; ARMADO</span>
             </div>
 
-            <!-- Imagen con Anillo 3D y Barrido Láser -->
-            <div class="relative aspect-[4/3] w-full overflow-hidden bg-slate-950 layer-z-10">
+            <div class="relative aspect-[4/3] w-full overflow-hidden bg-slate-950 clip-chamfer">
               <div class="laser-line"></div>
               <img
                 id="stage-img"
                 src="https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=1200&q=85"
-                onerror="this.src='https://placehold.co/1000x750/040509/00f5ff?text=VINDEV'"
-                alt="Vista previa servicio VinDev"
+                onerror="this.src='https://placehold.co/1000x750/030407/00f5ff?text=VINDEV'"
+                alt="Vista previa VinDev"
                 class="w-full h-full object-cover opacity-85 transition-all duration-500"
               />
-              <div class="absolute inset-0 bg-gradient-to-t from-[#040509] via-transparent to-transparent"></div>
-              <!-- Anillo 3D interno -->
-              <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div class="w-40 h-40 holo-ring-a"></div>
-              </div>
-              <div class="absolute bottom-3 left-3 right-3 flex justify-between items-end font-mono-hud text-xs bg-[#040509]/85 px-3 py-2 border-l-2 border-[#00f5ff]">
-                <span id="stage-metric-label" class="text-slate-400">IMPACTO</span>
-                <span id="stage-metric-value" class="text-[#00ff9d] font-bold">COMPATIBILIDAD 100%</span>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#030407] via-transparent to-transparent"></div>
+              <div class="absolute bottom-4 left-4 right-4 flex justify-between items-end font-mono-hud text-xs">
+                <span id="stage-metric-label" class="text-slate-300">RESULTADO</span>
+                <span id="stage-metric-value" class="text-[#00ff9d] font-bold text-sm">COMPATIBILIDAD 100%</span>
               </div>
             </div>
 
-            <!-- Datos Rápidos + Botón -->
-            <div class="grid grid-cols-2 gap-2 font-mono-hud text-xs pt-1 layer-z-20">
-              <div class="bg-white/[0.03] p-2.5 border-l border-[#00f5ff]">
-                <span class="text-[10px] text-slate-400 block">MODALIDAD</span>
-                <span id="stage-mode" class="text-white font-medium">TALLER / DOMICILIO</span>
+            <div class="grid grid-cols-2 gap-3 pt-4 font-mono-hud text-xs">
+              <div class="bg-white/[0.03] p-2.5 border-l-2 border-[#00f5ff]">
+                <span class="text-slate-400 block text-[10px]">MODALIDAD</span>
+                <span id="stage-mode" class="text-white">PRESENCIAL / DOMICILIO</span>
               </div>
-              <div class="bg-white/[0.03] p-2.5 border-l border-[#ff0055]">
-                <span class="text-[10px] text-slate-400 block">ENTREGA</span>
-                <span id="stage-time" class="text-white font-medium">MISMO DÍA / 24H</span>
+              <div class="bg-white/[0.03] p-2.5 border-l-2 border-[#ff0055]">
+                <span class="text-slate-400 block text-[10px]">ENTREGA</span>
+                <span id="stage-time" class="text-white">MISMO DÍA / 24H</span>
               </div>
             </div>
 
-            <button
-              type="button"
-              id="stage-cta"
-              class="btn-cyber w-full justify-between layer-z-30"
-            >
-              <span id="stage-cta-text">Cotizar este Servicio</span>
-              <span class="text-[#00f5ff]">↗</span>
-            </button>
+            <div class="pt-4">
+              <button type="button" id="stage-cta" class="btn-cyber w-full justify-between">
+                <span id="stage-cta-text">Cotizar este Servicio</span>
+                <span class="text-[#00ff9d]">↗</span>
+              </button>
+            </div>
           </div>
         </div>
 
-        <!-- Lista de los 5 Servicios (Textos Cortos y Directos) -->
-        <div id="services-list" class="lg:col-span-7 lg:pl-8 hud-line-l space-y-4">
-          <!-- Renderizado dinámicamente desde CONFIG.services -->
-        </div>
+        <!-- Lista de 5 Servicios Concisos -->
+        <div id="services-list" class="lg:col-span-7 lg:pl-8 hud-line-l space-y-4"></div>
 
       </div>
     </div>
   </section>
 
   <!-- ==========================================================================
-       5. SIMULADOR DE POTENCIA Y TEMPERATURA 3D (ANTES VS. DESPUÉS)
+       5. NUEVA MEJORA RECOMENDADA: ARQUITECTURAS / SETUPS BASE EN 3D
        ========================================================================== -->
-  <section id="rendimiento" class="relative z-10 hud-line-t hud-line-b bg-[#060914]/90">
-    <div class="max-w-[1440px] mx-auto px-5 md:px-12 py-20">
-      
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end pb-10 hud-line-b">
-        <div class="lg:col-span-7 cyber-reveal">
-          <span class="font-mono-hud text-xs text-[#00ff9d] uppercase tracking-widest block mb-1">
-            // 03. TELEMETRÍA ANTES VS. DESPUÉS
+  <section id="builds" class="relative z-10 hud-line-t bg-[#050811]/85 scene-3d">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 py-20">
+      <div class="flex flex-wrap items-end justify-between gap-6 pb-10 hud-line-b">
+        <div class="cyber-reveal">
+          <span class="font-mono-hud text-xs text-[#a855f7] uppercase tracking-widest block mb-2">
+            // 03. CONFIGURACIONES RECOMENDADAS EN 3D
           </span>
           <h2 class="font-display text-3xl sm:text-5xl font-bold uppercase text-white">
-            Desliza y comprueba el cambio real.
+            ¿Buscas armar PC o lanzar tu Web?
+          </h2>
+        </div>
+        <div class="font-mono-hud text-xs text-[#00f5ff]">
+          [ ELIGE UN PERFIL PARA CARGARLO AL COTIZADOR ]
+        </div>
+      </div>
+
+      <!-- 4 Tarjetas 3D de Perfiles -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-10" id="builds-grid">
+        <!-- Renderizado dinámico desde CONFIG.builds -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       6. SIMULADOR DE RENDIMIENTO EN VIVO (ANTES VS. DESPUÉS)
+       ========================================================================== -->
+  <section id="rendimiento" class="relative z-10 hud-line-t hud-line-b bg-[#04060c]/95 scene-3d">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 py-20">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end pb-12 hud-line-b">
+        <div class="lg:col-span-7 cyber-reveal">
+          <span class="font-mono-hud text-xs text-[#00ff9d] uppercase tracking-widest block mb-2">
+            // 04. TELEMETRÍA DE RENDIMIENTO
+          </span>
+          <h2 class="font-display text-3xl sm:text-5xl font-bold uppercase text-white">
+            PC Lento vs. Optimizado en VinDev.
           </h2>
         </div>
 
-        <div class="lg:col-span-5 space-y-2.5">
+        <div class="lg:col-span-5 space-y-3">
           <div class="flex justify-between font-mono-hud text-xs">
-            <span class="text-[#ff0055] font-semibold">0% (SATURADO / LENTO)</span>
-            <span id="slider-label" class="text-[#00f5ff] font-bold">100% OPTIMIZADO VINDEV</span>
+            <span class="text-[#ff0055]">0% (SATURADO)</span>
+            <span id="slider-label" class="text-[#00ff9d] font-bold">100% POTENCIA VINDEV</span>
           </div>
           <input
             id="perf-slider"
@@ -683,59 +646,56 @@
       </div>
 
       <!-- 4 Tarjetas 3D de Telemetría -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 pt-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-10">
         
-        <div class="tilt-3d hud-frame bg-[#050811] p-6">
-          <div class="layer-z-20">
-            <span class="font-mono-hud text-[11px] text-[#00f5ff] block mb-2">01 // TEMPERATURA CPU/GPU</span>
+        <div class="card-3d hud-frame p-6 bg-[#070b14]/90">
+          <div class="card-3d-layer">
+            <span class="font-mono-hud text-xs text-[#00f5ff] block mb-2">01 // TEMPERATURA</span>
             <div class="flex items-baseline gap-2">
               <span id="val-temp" class="font-display text-6xl font-bold text-white">61</span>
-              <span class="font-mono-hud text-lg text-[#00f5ff]">°C</span>
+              <span class="font-mono-hud text-base text-[#00f5ff]">°C</span>
             </div>
-            <div class="w-full h-1.5 bg-white/10 mt-4">
+            <div class="w-full h-1 bg-white/10 mt-4">
               <div id="bar-temp" class="h-full bg-gradient-to-r from-[#00f5ff] to-[#00ff9d] transition-all duration-150" style="width: 35%"></div>
             </div>
-            <p class="font-mono-hud text-[11px] text-slate-400 mt-3">Pasta térmica pro + limpieza total.</p>
           </div>
         </div>
 
-        <div class="tilt-3d hud-frame bg-[#050811] p-6">
-          <div class="layer-z-20">
-            <span class="font-mono-hud text-[11px] text-[#00ff9d] block mb-2">02 // ARRANQUE WINDOWS</span>
+        <div class="card-3d hud-frame p-6 bg-[#070b14]/90">
+          <div class="card-3d-layer">
+            <span class="font-mono-hud text-xs text-[#00ff9d] block mb-2">02 // ENCENDIDO WINDOWS</span>
             <div class="flex items-baseline gap-2">
               <span id="val-boot" class="font-display text-6xl font-bold text-white">11</span>
-              <span class="font-mono-hud text-sm text-[#00ff9d]">SEG</span>
+              <span class="font-mono-hud text-base text-[#00ff9d]">SEG</span>
             </div>
-            <div class="w-full h-1.5 bg-white/10 mt-4">
+            <div class="w-full h-1 bg-white/10 mt-4">
               <div id="bar-boot" class="h-full bg-[#00ff9d] transition-all duration-150" style="width: 15%"></div>
             </div>
-            <p class="font-mono-hud text-[11px] text-slate-400 mt-3">SSD NVMe + sistema sin basura.</p>
           </div>
         </div>
 
-        <div class="tilt-3d hud-frame bg-[#050811] p-6">
-          <div class="layer-z-20">
-            <span class="font-mono-hud text-[11px] text-[#ff0055] block mb-2">03 // FPS &amp; RESPUESTA</span>
+        <div class="card-3d hud-frame p-6 bg-[#070b14]/90">
+          <div class="card-3d-layer">
+            <span class="font-mono-hud text-xs text-[#ff0055] block mb-2">03 // FPS &amp; FLUIDEZ</span>
             <div class="flex items-baseline gap-2">
               <span id="val-fps" class="font-display text-6xl font-bold text-white">+45%</span>
+              <span class="font-mono-hud text-xs text-[#ff0055]">ESTABLE</span>
             </div>
-            <div class="w-full h-1.5 bg-white/10 mt-4">
+            <div class="w-full h-1 bg-white/10 mt-4">
               <div id="bar-fps" class="h-full bg-gradient-to-r from-[#ff0055] to-[#a855f7] transition-all duration-150" style="width: 95%"></div>
             </div>
-            <p class="font-mono-hud text-[11px] text-slate-400 mt-3">Drivers limpios + perfil XMP/EXPO.</p>
           </div>
         </div>
 
-        <div class="tilt-3d hud-frame bg-[#050811] p-6">
-          <div class="layer-z-20">
-            <span class="font-mono-hud text-[11px] text-[#a855f7] block mb-2">04 // ACÚSTICA CHASIS</span>
+        <div class="card-3d hud-frame p-6 bg-[#070b14]/90">
+          <div class="card-3d-layer">
+            <span class="font-mono-hud text-xs text-[#a855f7] block mb-2">04 // VENTILADORES</span>
             <div class="flex items-baseline gap-2">
               <span id="val-noise" class="font-display text-4xl sm:text-5xl font-bold text-white">SILENCIOSO</span>
             </div>
-            <div class="w-full h-1.5 bg-white/10 mt-4">
+            <div class="w-full h-1 bg-white/10 mt-4">
               <div id="bar-noise" class="h-full bg-[#a855f7] transition-all duration-150" style="width: 22%"></div>
             </div>
-            <p class="font-mono-hud text-[11px] text-slate-400 mt-3">Flujo de aire calibrado sin ruido.</p>
           </div>
         </div>
 
@@ -744,21 +704,21 @@
   </section>
 
   <!-- ==========================================================================
-       6. COTIZADOR DIRECTO A WHATSAPP 302 430 1771
+       7. COTIZADOR RÁPIDO EN 3 PASOS (SIN REPETIR EL NÚMERO DE TELÉFONO)
        ========================================================================== -->
-  <section id="cotizador" class="relative z-10 max-w-[1440px] mx-auto px-5 md:px-12 py-24">
+  <section id="cotizador" class="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 py-24 scene-3d">
     
     <div class="flex flex-wrap items-end justify-between gap-6 pb-10 hud-line-b">
       <div class="cyber-reveal">
-        <span class="font-mono-hud text-xs text-[#00f5ff] uppercase tracking-widest block mb-1">
-          // 04. COTIZADOR RÁPIDO EN 3 PASOS
+        <span class="font-mono-hud text-xs text-[#00f5ff] uppercase tracking-widest block mb-2">
+          // 05. CONFIGURADOR EXPRESS
         </span>
         <h2 class="font-display text-4xl sm:text-5xl font-bold uppercase text-white">
-          Configura y envía al <span class="text-[#00ff9d]">302 430 1771</span>
+          Cotiza en 3 Pasos.
         </h2>
       </div>
-      <div class="font-mono-hud text-xs text-slate-300 bg-white/5 px-4 py-2 border-l-2 border-[#ff0055]">
-        ATENCIÓN INMEDIATA VÍA WHATSAPP O LLAMADA
+      <div class="font-mono-hud text-xs text-[#00ff9d]">
+        ● RESPUESTA INMEDIATA Y PERSONALIZADA
       </div>
     </div>
 
@@ -768,74 +728,64 @@
       <div class="lg:col-span-5 space-y-8">
         <div>
           <span class="font-mono-hud text-xs text-[#00f5ff] uppercase tracking-widest block mb-3">
-            PASO 01 // ELIGE EL SERVICIO
+            01 // ELIGE EL SERVICIO
           </span>
-          <div id="quote-services" class="space-y-1.5">
-            <!-- Botones generados desde CONFIG.services -->
-          </div>
+          <div id="quote-services" class="space-y-1.5"></div>
         </div>
 
         <div>
           <span class="font-mono-hud text-xs text-[#ff0055] uppercase tracking-widest block mb-3">
-            PASO 02 // TIPO DE EQUIPO O PROYECTO
+            02 // TIPO DE EQUIPO O PROYECTO
           </span>
-          <div id="quote-devices" class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-            <!-- PC / Portátil / Web -->
-          </div>
+          <div id="quote-devices" class="grid grid-cols-1 sm:grid-cols-3 gap-2"></div>
         </div>
       </div>
 
-      <!-- Paso 3 + Consola 3D de Disparo -->
-      <div class="lg:col-span-7 lg:pl-8 hud-line-l flex flex-col justify-between space-y-8">
+      <!-- Paso 3 + Disparo Directo -->
+      <div class="lg:col-span-7 lg:pl-10 hud-line-l flex flex-col justify-between space-y-8">
         <div>
           <span class="font-mono-hud text-xs text-[#00ff9d] uppercase tracking-widest block mb-3">
-            PASO 03 // ¿QUÉ INCLUIMOS? (SELECCIÓN MÚLTIPLE):
+            03 // ¿QUÉ INCLUIMOS? (SELECCIÓN MÚLTIPLE)
           </span>
-          <div id="quote-suboptions" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            <!-- Sub-opciones dinámicas -->
-          </div>
+          <div id="quote-suboptions" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
 
-          <!-- Nota rápida opcional -->
-          <div class="mt-6 pt-6 hud-line-t">
+          <div class="mt-8 pt-6 hud-line-t">
             <label for="quote-notes" class="font-mono-hud text-xs text-slate-300 uppercase tracking-wider block mb-2">
               NOTA ADICIONAL (OPCIONAL — MODELO, JUEGOS O PRESUPUESTO):
             </label>
             <input
               id="quote-notes"
               type="text"
-              placeholder="Ej: Portátil gamer, o presupuesto para armar PC / web..."
-              class="w-full bg-white/[0.03] border-b-2 border-white/25 px-3 py-2.5 text-sm sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-[#00f5ff] transition"
+              placeholder="Ej: Portátil gamer, ensamble desde cero o web para mi negocio..."
+              class="w-full bg-transparent border-b border-white/25 py-2.5 text-base text-white placeholder-slate-600 focus:outline-none focus:border-[#00f5ff] transition"
             />
           </div>
         </div>
 
-        <!-- Consola 3D de Resumen y Disparo a WhatsApp -->
-        <div class="tilt-3d hud-frame bg-[#070b18] p-6 clip-chamfer shadow-[0_0_40px_rgba(0,255,157,0.12)]">
-          <div class="layer-z-20">
-            <div class="flex items-center justify-between font-mono-hud text-xs text-[#00f5ff] mb-2">
-              <span>MENSAJE LISTO PARA ENVIAR:</span>
-              <span class="text-[#00ff9d]">DESTINO: +57 302 430 1771</span>
+        <!-- Consola de Envío Limpia -->
+        <div class="card-3d hud-frame bg-[#060b16] p-6 border border-white/10">
+          <div class="card-3d-layer">
+            <div class="flex items-center justify-between font-mono-hud text-xs text-slate-400 mb-2">
+              <span>SOLICITUD GENERADA:</span>
+              <span class="text-[#00f5ff]">VINDEV // READY</span>
             </div>
+            <div id="quote-summary-preview" class="font-mono-hud text-xs sm:text-sm text-white mb-6 leading-relaxed"></div>
 
-            <div id="quote-summary-preview" class="font-mono-hud text-xs sm:text-sm text-white mb-5 leading-relaxed bg-black/40 p-3.5 border-l-2 border-[#00f5ff]">
-              <!-- Resumen en vivo -->
-            </div>
-
-            <div class="flex flex-wrap items-center justify-between gap-4 pt-3 hud-line-t">
+            <div class="flex flex-wrap items-center justify-between gap-4 pt-4 hud-line-t">
               <button
                 type="button"
                 id="btn-copy-quote"
-                class="font-mono-hud text-xs uppercase tracking-widest text-slate-300 hover:text-[#00f5ff] transition-colors py-2"
+                class="font-mono-hud text-xs uppercase tracking-widest text-slate-400 hover:text-[#00f5ff] transition-colors py-2"
               >
-                [ <span id="copy-label">Copiar Texto</span> ⧉ ]
+                [ <span id="copy-label">Copiar Solicitud</span> ⧉ ]
               </button>
 
               <button
                 type="button"
                 id="btn-wa-quote"
-                class="btn-cyber !border-l-[#00ff9d] !bg-gradient-to-r !from-[#00ff9d]/25 !to-[#00f5ff]/20"
+                class="btn-cyber !border-[#00ff9d] !bg-emerald-500/20 hover:!bg-emerald-500/30"
               >
-                <span>Enviar al WhatsApp 302 430 1771</span>
+                <span>Enviar Solicitud Ahora</span>
                 <span class="text-[#00ff9d]">↗</span>
               </button>
             </div>
@@ -847,40 +797,35 @@
   </section>
 
   <!-- ==========================================================================
-       7. FOOTER VINDEV
+       8. FOOTER VINDEV (Segundo y único lugar adicional con el número 302 430 1771)
        ========================================================================== -->
-  <footer class="relative z-10 hud-line-t py-10 px-5 md:px-12 max-w-[1440px] mx-auto font-mono-hud text-xs text-slate-400">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+  <footer class="relative z-10 hud-line-t py-12 px-6 md:px-12 max-w-[1440px] mx-auto font-mono-hud text-xs text-slate-400">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
       <div>
-        <span class="text-white font-bold text-base tracking-tight" id="footer-brand">VinDev</span>
-        <span class="block mt-1 text-slate-400">PC CUSTOM · MANTENIMIENTO · UPGRADES · WEB 3D</span>
+        <span class="text-white font-bold text-base tracking-tight">VinDev</span>
+        <span class="block mt-1 text-slate-500">SOPORTE TÉCNICO · ENSAMBLE DE PC · GAMING · PÁGINAS WEB</span>
       </div>
       <div class="md:text-center">
-        <span class="text-[#00ff9d] font-semibold">WHATSAPP &amp; CELULAR DIRECTO:</span>
-        <a href="https://wa.me/573024301771" target="_blank" rel="noopener noreferrer" class="block mt-1 text-white text-sm font-bold hover:text-[#00f5ff] transition-colors">
-          +57 302 430 1771
-        </a>
+        <span class="text-[#00ff9d] block font-semibold">CONTACTO DIRECTO: 302 430 1771</span>
+        <span class="block mt-1 text-slate-500">BOGOTÁ, COLOMBIA // ATENCIÓN GARANTIZADA</span>
       </div>
       <div class="md:text-right">
-        <a href="#" class="text-[#00f5ff] hover:text-[#ff0055] transition-colors">[ SUBIR AL INICIO ↑ ]</a>
-        <span class="block mt-1">© <span id="year"></span> VINDEV. INGENIERÍA DIGITAL.</span>
+        <a href="#" class="text-[#00f5ff] hover:text-white transition-colors">[ SUBIR AL INICIO ↑ ]</a>
+        <span class="block mt-1 text-slate-500">© <span id="year"></span> VINDEV.</span>
       </div>
     </div>
   </footer>
 
   <!-- ==========================================================================
-       LÓGICA CENTRALIZADA + MOTOR 3D EN TIEMPO REAL
+       MOTOR JAVASCRIPT: CANVAS 3D + TILT 3D + CONFIGURACIÓN CENTRAL
        ========================================================================== -->
   <script>
-    /**
-     * CONFIGURACIÓN OFICIAL VINDEV (TEXTOS CONCISOS + CELULAR 3024301771)
-     */
     const CONFIG = {
       brandName: "VinDev",
       whatsappNumber: "573024301771",
       phoneDisplay: "302 430 1771",
       deviceTypes: [
-        "PC de Escritorio",
+        "PC Escritorio / Torre",
         "Portátil",
         "Página Web"
       ],
@@ -888,71 +833,71 @@
         {
           id: "lento",
           code: "CASO_01 // LENTITUD",
-          symptom: "PC lento al prender o abrir apps",
-          title: "Disco Mecánico Saturado o Falta de RAM",
-          diagnosis: "Reemplazamos tu disco antiguo por un SSD NVMe ultrarrápido y optimizamos Windows sin perder tus archivos.",
+          symptom: "PC lento al prender o abrir programas",
+          title: "Upgrade SSD NVMe + RAM + Sistema Limpio",
+          diagnosis: "Multiplicamos por 10 la velocidad reemplazando discos mecánicos lentos por unidades sólidas NVMe y optimizando Windows desde cero.",
           bars: [
-            { label: "VELOCIDAD SSD", val: "10x Más Rápido", color: "#00f5ff" },
-            { label: "ENCENDIDO", val: "10 Segundos", color: "#00ff9d" },
-            { label: "TUS ARCHIVOS", val: "100% Intactos", color: "#a855f7" }
+            { label: "VELOCIDAD", val: "10x Más Rápido", color: "text-[#00f5ff]" },
+            { label: "ARRANQUE", val: "10 Segundos", color: "text-[#00ff9d]" },
+            { label: "TUS ARCHIVOS", val: "100% Seguros", color: "text-[#a855f7]" }
           ],
-          solutionTag: "Upgrade SSD NVMe + RAM + Optimización",
+          solutionTag: "Disco Sólido SSD + RAM + Optimización",
           targetServiceId: "piezas"
         },
         {
           id: "calor",
           code: "CASO_02 // TEMPERATURA",
           symptom: "Se calienta mucho, suena fuerte o se apaga",
-          title: "Saturación Térmica y Pasta Seca",
-          diagnosis: "Desarme completo, limpieza ultrasónica de disipadores y aplicación de pasta térmica profesional de alta conductividad.",
+          title: "Desinfección Térmica + Pasta de Alta Conductividad",
+          diagnosis: "Eliminamos obstrucciones de polvo y renovamos pasta térmica seca para recuperar tus FPS y bajar hasta 25°C.",
           bars: [
-            { label: "TEMPERATURA", val: "-15°C a -25°C", color: "#ff0055" },
-            { label: "RUIDO COOLERS", val: "Silencioso", color: "#00f5ff" },
-            { label: "ESTABILIDAD", val: "Cero Apagones", color: "#00ff9d" }
+            { label: "TEMPERATURA", val: "-15°C a -25°C", color: "text-[#ff0055]" },
+            { label: "RUIDO", val: "Silencioso", color: "text-[#00ff9d]" },
+            { label: "PROTECCIÓN", val: "Vida Útil 100%", color: "text-[#00f5ff]" }
           ],
           solutionTag: "Mantenimiento Profundo + Pasta Térmica Pro",
           targetServiceId: "mantenimiento"
         },
         {
           id: "armar",
-          code: "CASO_03 // PC DESDE CERO",
-          symptom: "Quiero armar un PC potente a mi medida",
-          title: "Arquitectura Custom Sin Cuellos de Botella",
-          diagnosis: "Seleccionamos las mejores piezas según tu presupuesto, ensamblamos con cableado limpio y dejamos BIOS lista.",
+          code: "CASO_03 // ENSAMBLE PRO",
+          symptom: "Quiero armar un PC potente desde cero",
+          title: "Ensamble a Medida sin Malgastar Presupuesto",
+          diagnosis: "Seleccionamos piezas 100% compatibles, armamos con gestión profesional de cables y dejamos BIOS y frecuencias listas.",
           bars: [
-            { label: "COMPATIBILIDAD", val: "100% Exacta", color: "#00f5ff" },
-            { label: "CABLEADO", val: "Flujo Limpio", color: "#a855f7" },
-            { label: "BIOS & RAM", val: "Perfil XMP Activo", color: "#00ff9d" }
+            { label: "PIEZAS", val: "0% Cuello Botella", color: "text-[#00f5ff]" },
+            { label: "CABLEADO", val: "Flujo de Aire Pro", color: "text-[#00ff9d]" },
+            { label: "BIOS / XMP", val: "Configurado", color: "text-[#ff0055]" }
           ],
           solutionTag: "Asesoría + Ensamble Profesional + Test Stress",
           targetServiceId: "ensamble"
         },
         {
           id: "programas",
-          code: "CASO_04 // SISTEMA & GAMING",
+          code: "CASO_04 // APPS & GAMING",
           symptom: "Formatear, instalar programas o subir FPS",
-          title: "Sistema Limpio + Suite de Apps y Juegos",
-          diagnosis: "Windows 10/11 optimizado al máximo, drivers oficiales, programas de trabajo/diseño y ajuste de FPS.",
+          title: "Windows Optimizado, Programas & Boost Gaming",
+          diagnosis: "Sistema limpio sin procesos basura, suite de programas lista para trabajar/estudiar y drivers calibrados para jugar sin tirones.",
           bars: [
-            { label: "WINDOWS 10/11", val: "Cero Bloatware", color: "#00ff9d" },
-            { label: "PROGRAMAS", val: "Listos Para Usar", color: "#00f5ff" },
-            { label: "JUEGOS", val: "Máximos FPS", color: "#ff0055" }
+            { label: "SISTEMA", val: "Win 10/11 Pro", color: "text-[#00f5ff]" },
+            { label: "PROGRAMAS", val: "Suite Completa", color: "text-[#a855f7]" },
+            { label: "GAMING", val: "+FPS Estables", color: "text-[#00ff9d]" }
           ],
-          solutionTag: "Formateo Pro + Programas + Boost Gaming",
+          solutionTag: "Formateo + Programas + Optimización Gaming",
           targetServiceId: "optimizacion"
         },
         {
           id: "web",
-          code: "CASO_05 // WEB MODERNA",
-          symptom: "Necesito una página web llamativa para vender",
-          title: "Diseño Web de Alto Impacto + WhatsApp",
-          diagnosis: "Creamos sitios web veloces, adaptados a celular, con estética única y conversión directa a tu WhatsApp.",
+          code: "CASO_05 // IMPACTO WEB",
+          symptom: "Necesito una página web moderna y rápida",
+          title: "Desarrollo Web Futurista con Conversión Directa",
+          diagnosis: "Páginas ultrarrápidas con estética única, adaptadas a celulares y conectadas directo a tu WhatsApp para cerrar ventas.",
           bars: [
-            { label: "DISEÑO", val: "Cero Genérico", color: "#a855f7" },
-            { label: "VELOCIDAD", val: "Carga Instantánea", color: "#00f5ff" },
-            { label: "VENTAS", val: "Botón WhatsApp", color: "#00ff9d" }
+            { label: "DISEÑO", val: "Cero Genérico", color: "text-[#ff0055]" },
+            { label: "CELULAR / PC", val: "100% Fluido", color: "text-[#00f5ff]" },
+            { label: "VENTAS", val: "Chat Directo", color: "text-[#00ff9d]" }
           ],
-          solutionTag: "Desarrollo Web Profesional a Medida",
+          solutionTag: "Diseño y Desarrollo Web Profesional",
           targetServiceId: "web"
         }
       ],
@@ -961,101 +906,143 @@
           id: "ensamble",
           index: "01",
           category: "HARDWARE & ARMADO",
-          title: "Ensamble de PC Custom & Asesoría",
+          accent: "#00f5ff",
+          title: "Ensamble de PC a Medida",
           shortTitle: "Ensamble de PC / Asesoría",
-          desc: "Elección inteligente de piezas según tu presupuesto, armado profesional, gestión de cables y configuración BIOS.",
+          desc: "Elección inteligente de piezas según tu bolsillo, armado limpio, actualización de BIOS y pruebas de exigencia.",
           metricLabel: "COMPATIBILIDAD",
           metricValue: "100% GARANTIZADA",
           mode: "PRESENCIAL / ENTREGA LISTA",
           time: "24 A 48 HORAS",
-          accent: "#00f5ff",
           img: "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=1200&q=85",
           subOptions: [
-            "Elección de piezas según presupuesto",
-            "Ensamble desde cero + cableado pro",
-            "Configuración BIOS y RAM XMP/EXPO",
-            "Pruebas extremas de temperatura"
+            "Asesoría de piezas según presupuesto",
+            "Ensamble profesional + Gestión de cables",
+            "Configuración BIOS + Perfil XMP/EXPO RAM",
+            "Pruebas de temperatura y estabilidad"
           ]
         },
         {
           id: "mantenimiento",
           index: "02",
           category: "LIMPIEZA & TEMPERATURA",
-          title: "Mantenimiento Térmico & Pasta Pro",
-          shortTitle: "Mantenimiento Térmico",
-          desc: "Desarme total, eliminación de polvo interno y cambio de pasta térmica de alto rendimiento para bajar hasta 25°C.",
+          accent: "#ff0055",
+          title: "Mantenimiento & Pasta Térmica",
+          shortTitle: "Mantenimiento y Limpieza",
+          desc: "Desarme completo, eliminación de polvo interno y pasta térmica premium para bajar hasta 25°C y silenciar tu equipo.",
           metricLabel: "MEJORA TÉRMICA",
           metricValue: "-15°C A -25°C MENOS",
           mode: "TALLER / DOMICILIO",
           time: "MISMO DÍA (2-4H)",
-          accent: "#ff0055",
           img: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=1200&q=85",
           subOptions: [
-            "Limpieza interna profunda de polvo",
-            "Pasta térmica de alta conductividad",
-            "Revisión de Thermal Pads en GPU",
-            "Ajuste y lubricación de ventiladores"
+            "Limpieza profunda interna y ventiladores",
+            "Cambio de pasta térmica alta conductividad",
+            "Revisión de Thermal Pads en gráfica/portátil",
+            "Optimización de flujo de aire del chasis"
           ]
         },
         {
           id: "piezas",
           index: "03",
-          category: "UPGRADE HARDWARE",
-          title: "Upgrade de SSD NVMe, RAM & GPU",
-          shortTitle: "Upgrade de Piezas (SSD/RAM/GPU)",
-          desc: "Multiplicamos por 10x la velocidad de tu PC o portátil instalando unidades SSD M.2, más memoria RAM o nueva gráfica.",
+          category: "UPGRADE DE VELOCIDAD",
+          accent: "#00ff9d",
+          title: "Upgrade de SSD, RAM & GPU",
+          shortTitle: "Cambio o Mejora de Piezas",
+          desc: "Potenciamos tu PC o portátil actual instalando discos NVMe ultrarrápidos, más memoria RAM, tarjetas de video o fuentes certificadas.",
           metricLabel: "VELOCIDAD",
           metricValue: "10X MÁS RÁPIDO",
           mode: "PRESENCIAL / DOMICILIO",
           time: "MISMO DÍA",
-          accent: "#00ff9d",
           img: "https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=1200&q=85",
           subOptions: [
-            "Instalación SSD NVMe M.2 o SATA",
-            "Ampliación de memoria RAM",
-            "Montaje de tarjeta gráfica o fuente",
-            "Cambio a nuevo chasis gamer"
+            "Instalación de SSD NVMe M.2 o SATA",
+            "Ampliación de Memoria RAM",
+            "Instalación de Tarjeta Gráfica o Fuente",
+            "Cambio de gabinete / chasis nuevo"
           ]
         },
         {
           id: "optimizacion",
           index: "04",
           category: "SISTEMA, APPS & GAMING",
-          title: "Formateo, Programas & Boost FPS",
-          shortTitle: "Formateo, Apps y Juegos",
-          desc: "Windows 10/11 limpio con respaldo de datos, instalación de programas de estudio/diseño y optimización gamer.",
+          accent: "#a855f7",
+          title: "Formateo, Programas & Juegos",
+          shortTitle: "Formateo, Programas y Juegos",
+          desc: "Windows 10/11 veloz con copia de seguridad, programas de trabajo/diseño/estudio, juegos y calibración de drivers para más FPS.",
           metricLabel: "RENDIMIENTO",
-          metricValue: "+FPS / CERO LAG",
+          metricValue: "CERO PROCESOS BASURA",
           mode: "PRESENCIAL O REMOTO",
-          time: "2 A 3 HORAS",
-          accent: "#ffaa00",
+          time: "2 A 4 HORAS",
           img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=85",
           subOptions: [
-            "Formateo Windows 10 / 11 + Backup",
-            "Suite Office, Adobe, Arquitectura",
-            "Instalación de juegos a elección",
-            "Optimización de FPS y latencia"
+            "Formateo + Windows 10 / 11 Optimizado",
+            "Backup seguro de documentos y archivos",
+            "Instalación de Office y programas de diseño/estudio",
+            "Instalación de juegos + Optimización FPS"
           ]
         },
         {
           id: "web",
           index: "05",
           category: "DESARROLLO DIGITAL",
-          title: "Páginas Web Modernas & 3D",
+          accent: "#00f5ff",
+          title: "Creación de Páginas Web 3D",
           shortTitle: "Creación de Página Web",
-          desc: "Diseño web futurista, ultrarrápido y adaptable a móviles con contacto directo a tu WhatsApp para cerrar ventas.",
+          desc: "Sitios web de alto impacto visual, ultrarrápidos en celular y conectados a tu WhatsApp para convertir visitantes en clientes.",
           metricLabel: "IMPACTO VISUAL",
-          metricValue: "100% RESPONSIVE & PRO",
+          metricValue: "100% RESPONSIVO & PRO",
           mode: "100% ONLINE",
-          time: "3 A 6 DÍAS",
-          accent: "#a855f7",
+          time: "3 A 7 DÍAS",
           img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=85",
           subOptions: [
-            "Landing Page de alto impacto",
-            "Web empresarial con catálogo",
-            "Cotizador directo a tu WhatsApp",
-            "Dominio .com + hosting rápido"
+            "Landing Page moderna de alta conversión",
+            "Web corporativa o catálogo interactivo",
+            "Botón y cotizador directo a WhatsApp",
+            "Configuración de dominio (.com) y hosting"
           ]
+        }
+      ],
+      builds: [
+        {
+          tag: "PERFIL 01 // PRODUCTIVIDAD",
+          name: "Workstation Estudio & Oficina",
+          color: "#00f5ff",
+          metric: "Arranque en 9 seg",
+          specs: ["Procesador Multinúcleo", "16GB RAM Dual-Channel", "SSD NVMe 500GB/1TB", "Windows 11 + Suite Office"],
+          serviceId: "ensamble",
+          device: "PC Escritorio / Torre",
+          note: "Me interesa cotizar un PC perfil Estudio / Oficina rápido."
+        },
+        {
+          tag: "PERFIL 02 // GAMING 1080P ULTRA",
+          name: "Rig Gamer Competitivo",
+          color: "#ff0055",
+          metric: "+140 FPS Estables",
+          specs: ["Core i5 / Ryzen 5 Serie Pro", "RTX 4060 / RX equivalentes", "16GB/32GB DDR5 / DDR4", "Chasis Airflow + Fuente 80+"],
+          serviceId: "ensamble",
+          device: "PC Escritorio / Torre",
+          note: "Quiero cotizar un PC Gamer para jugar en 1080p Ultra con altos FPS."
+        },
+        {
+          tag: "PERFIL 03 // EXTREME & DISEÑO",
+          name: "Setup Creadores & 1440p",
+          color: "#a855f7",
+          metric: "Render & Streaming",
+          specs: ["Core i7 / Ryzen 7 + Cooler Pro", "32GB RAM Alta Frecuencia", "1TB NVMe Gen4 Ultrarrápido", "Refrigeración Optimizada"],
+          serviceId: "ensamble",
+          device: "PC Escritorio / Torre",
+          note: "Busco armar un PC para diseño, arquitectura, streaming o gaming pesado."
+        },
+        {
+          tag: "PERFIL 04 // NEGOCIO DIGITAL",
+          name: "Web Cyber-HUD / Landing Pro",
+          color: "#00ff9d",
+          metric: "Carga < 1 Segundo",
+          specs: ["Diseño Único Cero Plantillas", "100% Adaptado a Celulares", "Cotizador Directo a WhatsApp", "Optimización SEO y Dominio"],
+          serviceId: "web",
+          device: "Página Web",
+          note: "Quiero cotizar una página web moderna y rápida para mi negocio."
         }
       ]
     };
@@ -1068,7 +1055,7 @@
     };
 
     /* ==========================================================================
-       1. CANVAS 3D CON PROYECCIÓN DE PERSPECTIVA Y NÚCLEO WIREFRAME 3D ROTATIVO
+       1. CANVAS 3D EN TIEMPO REAL: ICOSAEDRO HOLOGRÁFICO + PARTÍCULAS EJE Z
        ========================================================================== */
     function initCyberCanvas3D() {
       const canvas = document.getElementById("cyber-canvas-3d");
@@ -1079,138 +1066,120 @@
 
       let mouseX = 0;
       let mouseY = 0;
-      let targetRotX = 0.3;
-      let targetRotY = 0.5;
+      let scrollAngle = 0;
 
       window.addEventListener("mousemove", (e) => {
         mouseX = (e.clientX / width - 0.5) * 2;
         mouseY = (e.clientY / height - 0.5) * 2;
       });
 
+      window.addEventListener("scroll", () => {
+        scrollAngle = window.scrollY * 0.002;
+      }, { passive: true });
+
       window.addEventListener("resize", () => {
         width = canvas.width = window.innerWidth;
         height = canvas.height = window.innerHeight;
       });
 
-      // Vértices de un octaedro/cubo compuesto 3D (Cyber Core)
-      const coreVertices = [
-        [-1, -1, -1], [1, -1, -1], [1, 1, -1], [-1, 1, -1],
-        [-1, -1,  1], [1, -1,  1], [1, 1,  1], [-1, 1,  1],
-        [0, -1.6, 0], [0, 1.6, 0], [-1.6, 0, 0], [1.6, 0, 0], [0, 0, -1.6], [0, 0, 1.6]
-      ];
-
-      const coreEdges = [
-        [0,1],[1,2],[2,3],[3,0],
-        [4,5],[5,6],[6,7],[7,4],
-        [0,4],[1,5],[2,6],[3,7],
-        [8,0],[8,1],[8,4],[8,5],
-        [9,2],[9,3],[9,6],[9,7],
-        [10,0],[10,3],[10,4],[10,7],
-        [11,1],[11,2],[11,5],[11,6]
-      ];
-
-      // Partículas en túnel de profundidad 3D (Eje Z)
-      const palette = ["#00f5ff", "#ff0055", "#00ff9d", "#a855f7"];
-      const particles = Array.from({ length: 65 }, (_, i) => ({
+      const stars = Array.from({ length: 75 }, () => ({
         x: (Math.random() - 0.5) * 1600,
-        y: (Math.random() - 0.5) * 1000,
-        z: Math.random() * 1000 + 80,
-        color: palette[i % palette.length],
-        size: Math.random() * 2.2 + 1
+        y: (Math.random() - 0.5) * 1600,
+        z: Math.random() * 1000 + 50,
+        color: ["#00f5ff", "#ff0055", "#00ff9d", "#a855f7"][Math.floor(Math.random() * 4)]
       }));
 
-      let angleX = 0;
-      let angleY = 0;
+      const t = (1 + Math.sqrt(5)) / 2;
+      const rawVertices = [
+        [-1,  t,  0], [ 1,  t,  0], [-1, -t,  0], [ 1, -t,  0],
+        [ 0, -1,  t], [ 0,  1,  t], [ 0, -1, -t], [ 0,  1, -t],
+        [ t,  0, -1], [ t,  0,  1], [-t,  0, -1], [-t,  0,  1]
+      ];
 
-      function project3D(x, y, z, cx, cy, fov) {
-        const scale = fov / (fov + z);
-        return {
-          x: cx + x * scale,
-          y: cy + y * scale,
-          scale
-        };
+      const edges = [];
+      for (let i = 0; i < rawVertices.length; i++) {
+        for (let j = i + 1; j < rawVertices.length; j++) {
+          const dx = rawVertices[i][0] - rawVertices[j][0];
+          const dy = rawVertices[i][1] - rawVertices[j][1];
+          const dz = rawVertices[i][2] - rawVertices[j][2];
+          const dist = Math.hypot(dx, dy, dz);
+          if (dist < 2.1) edges.push([i, j]);
+        }
       }
 
+      let time = 0;
       function render() {
+        time += 0.008;
         ctx.clearRect(0, 0, width, height);
 
-        const scrollOffset = window.scrollY * 0.0012;
-        targetRotY += 0.005;
-        angleX += (mouseY * 0.8 + scrollOffset - angleX) * 0.05;
-        angleY += (mouseX * 0.8 + targetRotY - angleY) * 0.05;
-
-        const cx = width * 0.72;
-        const cy = height * 0.42;
+        const cx = width / 2;
+        const cy = height / 2;
         const fov = 520;
-        const radius = Math.min(width, height) * 0.19;
 
-        // 1. Dibujar partículas de profundidad 3D
-        for (let i = 0; i < particles.length; i++) {
-          const p = particles[i];
-          p.z -= 2.2;
-          if (p.z <= 20) {
-            p.z = 1000;
-            p.x = (Math.random() - 0.5) * 1600;
-            p.y = (Math.random() - 0.5) * 1000;
+        // 1. Partículas 3D viajando hacia el usuario
+        for (const s of stars) {
+          s.z -= 2.2;
+          if (s.z <= 20) {
+            s.z = 1000;
+            s.x = (Math.random() - 0.5) * 1600;
+            s.y = (Math.random() - 0.5) * 1600;
           }
 
-          const proj = project3D(
-            p.x + mouseX * -90,
-            p.y + mouseY * -90,
-            p.z,
-            width / 2,
-            height / 2,
-            fov
-          );
+          const scale = fov / s.z;
+          const sx = cx + (s.x - mouseX * 140) * scale;
+          const sy = cy + (s.y - mouseY * 140) * scale;
 
-          const alpha = Math.min(1, (1000 - p.z) / 700) * 0.65;
-          ctx.fillStyle = p.color;
-          ctx.globalAlpha = alpha;
-          const s = p.size * proj.scale * 2;
-          ctx.fillRect(proj.x, proj.y, s, s);
+          if (sx > 0 && sx < width && sy > 0 && sy < height) {
+            const size = Math.max(1, (1 - s.z / 1000) * 3.2);
+            ctx.fillStyle = s.color;
+            ctx.globalAlpha = (1 - s.z / 1000) * 0.7;
+            ctx.fillRect(sx, sy, size, size);
+          }
         }
 
-        // 2. Rotar y proyectar el Cyber Core 3D
-        const cosX = Math.cos(angleX);
-        const sinX = Math.sin(angleX);
-        const cosY = Math.cos(angleY);
-        const sinY = Math.sin(angleY);
+        // 2. Poliedro 3D rotando en el centro
+        const rotX = time + mouseY * 0.8 + scrollAngle;
+        const rotY = time * 1.3 + mouseX * 0.8 + scrollAngle;
+        const radius = Math.min(width, height) * 0.22;
 
-        const projectedNodes = coreVertices.map(([vx, vy, vz]) => {
+        const projected = rawVertices.map(([vx, vy, vz]) => {
           let x = vx * radius;
           let y = vy * radius;
           let z = vz * radius;
 
-          // Rotación Y
-          const x1 = x * cosY - z * sinY;
-          const z1 = z * cosY + x * sinY;
-          // Rotación X
-          const y2 = y * cosX - z1 * sinX;
-          const z2 = z1 * cosX + y * sinX;
+          let y1 = y * Math.cos(rotX) - z * Math.sin(rotX);
+          let z1 = y * Math.sin(rotX) + z * Math.cos(rotX);
 
-          return project3D(x1, y2, z2 + 240, cx, cy, fov);
+          let x2 = x * Math.cos(rotY) + z1 * Math.sin(rotY);
+          let z2 = -x * Math.sin(rotY) + z1 * Math.cos(rotY);
+
+          const scale = fov / (fov + z2 + 350);
+          return {
+            x: cx + x2 * scale,
+            y: cy + y1 * scale,
+            z: z2
+          };
         });
 
-        // Dibujar aristas 3D
-        ctx.lineWidth = 1.1;
-        coreEdges.forEach(([i, j], idx) => {
-          const a = projectedNodes[i];
-          const b = projectedNodes[j];
-          ctx.strokeStyle = idx % 3 === 0 ? "rgba(255, 0, 85, 0.28)" : "rgba(0, 245, 255, 0.25)";
-          ctx.globalAlpha = 1;
+        ctx.globalAlpha = 0.22;
+        ctx.lineWidth = 1;
+        edges.forEach(([i, j], idx) => {
+          const p1 = projected[i];
+          const p2 = projected[j];
+          ctx.strokeStyle = idx % 3 === 0 ? "#ff0055" : idx % 2 === 0 ? "#00f5ff" : "#a855f7";
           ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
           ctx.stroke();
         });
 
-        // Dibujar nodos brillantes en los vértices 3D
-        projectedNodes.forEach((pt, idx) => {
-          ctx.fillStyle = idx >= 8 ? "#ff0055" : "#00f5ff";
-          const sz = Math.max(2, 4.5 * pt.scale);
-          ctx.fillRect(pt.x - sz / 2, pt.y - sz / 2, sz, sz);
+        ctx.globalAlpha = 0.55;
+        projected.forEach((p, idx) => {
+          ctx.fillStyle = idx % 2 === 0 ? "#00f5ff" : "#00ff9d";
+          ctx.fillRect(p.x - 2, p.y - 2, 4, 4);
         });
 
+        ctx.globalAlpha = 1;
         requestAnimationFrame(render);
       }
 
@@ -1218,39 +1187,37 @@
     }
 
     /* ==========================================================================
-       2. INTERACCIÓN TILT 3D EN PANELES HUD (PERSPECTIVA REAL AL MOVER EL CURSOR)
+       2. EFECTO TILT 3D INTERACTIVO EN PANELES Y TARJETAS
        ========================================================================== */
     function init3DTiltCards() {
-      const bindTilt = (el) => {
-        if (el.dataset.tiltBound) return;
-        el.dataset.tiltBound = "true";
+      document.querySelectorAll(".card-3d").forEach((card) => {
+        if (card.dataset.tiltBound) return;
+        card.dataset.tiltBound = "true";
 
-        el.addEventListener("mousemove", (e) => {
-          const rect = el.getBoundingClientRect();
+        card.addEventListener("mousemove", (e) => {
+          const rect = card.getBoundingClientRect();
           const x = e.clientX - rect.left;
           const y = e.clientY - rect.top;
-          const pctX = (x / rect.width - 0.5) * 2;
-          const pctY = (y / rect.height - 0.5) * 2;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
 
-          const rotY = pctX * 7.5;
-          const rotX = -pctY * 7.5;
+          const rotateX = ((y - centerY) / centerY) * -6.5;
+          const rotateY = ((x - centerX) / centerX) * 6.5;
 
-          el.style.transform = `perspective(1100px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale3d(1.01, 1.01, 1.01)`;
+          card.style.transform = `perspective(1100px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(4px)`;
         });
 
-        el.addEventListener("mouseleave", () => {
-          el.style.transform = "perspective(1100px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)";
+        card.addEventListener("mouseleave", () => {
+          card.style.transform = "perspective(1100px) rotateX(0deg) rotateY(0deg) translateZ(0px)";
         });
-      };
-
-      document.querySelectorAll(".tilt-3d").forEach(bindTilt);
+      });
     }
 
     /* ==========================================================================
-       3. DECODIFICADOR DE TEXTO CYBER
+       3. DECODIFICADOR DE TEXTO (SCRAMBLE HUD)
        ========================================================================== */
-    const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789//[]⚡";
-    function scrambleText(element, finalString, duration = 360) {
+    const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789//[]<>⚡";
+    function scrambleText(element, finalString, duration = 380) {
       if (!element) return;
       const startTime = performance.now();
       function update(now) {
@@ -1280,12 +1247,12 @@
 
       const heroTitle = document.querySelector(".scramble-init");
       if (heroTitle) {
-        scrambleText(heroTitle, "POTENCIA EXTREMA", 650);
+        scrambleText(heroTitle, "MÁXIMO PODER", 650);
       }
     }
 
     /* ==========================================================================
-       4. ESCÁNER INTERACTIVO DE DIAGNÓSTICO
+       4. ESCÁNER INTERACTIVO 3D
        ========================================================================== */
     function initDiagnosticScanner() {
       const triggersContainer = document.getElementById("diagnostic-triggers");
@@ -1307,13 +1274,13 @@
               <button
                 type="button"
                 data-diag-index="${idx}"
-                class="hud-option w-full text-left py-3.5 px-4 flex items-center justify-between gap-3 ${active ? "active" : "text-slate-400"}"
+                class="hud-option w-full text-left py-3.5 px-4 flex items-center justify-between gap-4 ${active ? "active" : "text-slate-400"}"
               >
                 <div>
                   <span class="font-mono-hud text-[10px] ${active ? "text-[#00f5ff]" : "text-slate-500"} block">${d.code}</span>
                   <span class="font-display text-sm sm:text-base font-semibold ${active ? "text-white" : "text-slate-300"}">${d.symptom}</span>
                 </div>
-                <span class="font-mono-hud text-sm ${active ? "text-[#ff0055]" : "text-slate-600"}">⚡</span>
+                <span class="font-mono-hud text-sm ${active ? "text-[#ff0055]" : "text-slate-600"}">↗</span>
               </button>
             `;
           })
@@ -1327,9 +1294,9 @@
         barsEl.innerHTML = item.bars
           .map(
             (b) => `
-            <div class="bg-white/[0.03] p-3.5 border-l-2" style="border-left-color: ${b.color}">
-              <span class="font-mono-hud text-[10px] text-slate-400 uppercase block mb-1">${b.label}</span>
-              <span class="font-display text-xl font-bold" style="color: ${b.color}">${b.val}</span>
+            <div class="border-l-2 border-white/15 pl-3">
+              <span class="font-mono-hud text-[10px] text-slate-400 uppercase block">${b.label}</span>
+              <span class="font-display text-lg sm:text-xl font-bold ${b.color}">${b.val}</span>
             </div>
           `
           )
@@ -1350,7 +1317,7 @@
     }
 
     /* ==========================================================================
-       5. CATÁLOGO DE 5 SERVICIOS CON TARJETAS 3D
+       5. CATÁLOGO DE 5 SERVICIOS CON MOVIMIENTO 3D
        ========================================================================== */
     function initServicesShowcase() {
       const listEl = document.getElementById("services-list");
@@ -1365,14 +1332,11 @@
       const stageCtaText = document.getElementById("stage-cta-text");
 
       function updateStage(service) {
-        document.documentElement.style.setProperty("--active-accent", service.accent);
         scrambleText(stageIndex, `SERVICIO // ${service.index}`, 260);
         stageCat.textContent = service.category;
-        stageCat.style.color = service.accent;
         stageImg.src = service.img;
         stageMetricLabel.textContent = service.metricLabel;
         stageMetricValue.textContent = service.metricValue;
-        stageMetricValue.style.color = service.accent;
         stageMode.textContent = service.mode;
         stageTime.textContent = service.time;
         stageCtaText.textContent = `Cotizar: ${service.shortTitle}`;
@@ -1380,8 +1344,8 @@
 
         listEl.querySelectorAll("[data-service-row]").forEach((row) => {
           const isCurrent = row.getAttribute("data-service-row") === service.id;
-          row.classList.toggle("bg-white/[0.06]", isCurrent);
-          row.style.borderLeftColor = isCurrent ? service.accent : "rgba(255,255,255,0.1)";
+          row.classList.toggle("border-l-[#00f5ff]", isCurrent);
+          row.classList.toggle("bg-white/[0.04]", isCurrent);
         });
       }
 
@@ -1390,23 +1354,22 @@
           (s) => `
           <article
             data-service-row="${s.id}"
-            class="tilt-3d hud-frame p-5 sm:p-6 bg-[#060a15]/80 border-l-4 transition-all duration-300 cursor-pointer group"
-            style="border-left-color: ${s.accent}"
+            class="card-3d hud-frame p-6 bg-[#060a14]/80 border border-white/5 border-l-4 transition-all duration-300 cursor-pointer group"
           >
-            <div class="layer-z-20">
+            <div class="card-3d-layer">
               <div class="flex flex-wrap items-center justify-between gap-2 font-mono-hud text-xs mb-2">
-                <span style="color: ${s.accent}" class="font-bold">// ${s.index} — ${s.category}</span>
-                <span class="text-white bg-white/10 px-2 py-0.5 text-[11px]">${s.metricValue}</span>
+                <span style="color: ${s.accent}">// ${s.index} — ${s.category}</span>
+                <span class="text-[#00ff9d] font-semibold">[${s.metricValue}]</span>
               </div>
 
               <div class="flex items-start justify-between gap-4">
-                <h3 class="font-display text-xl sm:text-2xl font-bold text-white group-hover:text-[#00f5ff] transition-colors">
+                <h3 class="font-display text-2xl sm:text-3xl font-bold text-white group-hover:text-[#00f5ff] transition-colors">
                   ${s.title}
                 </h3>
-                <span class="font-mono-hud text-lg text-[#ff0055] group-hover:translate-x-1 transition-transform">↗</span>
+                <span class="font-mono-hud text-lg text-slate-400 group-hover:text-[#ff0055] group-hover:translate-x-1 transition-all">↗</span>
               </div>
 
-              <p class="text-slate-300 text-sm leading-snug mt-2 mb-4">
+              <p class="text-slate-300 text-sm font-light leading-relaxed mt-2 mb-4">
                 ${s.desc}
               </p>
 
@@ -1414,8 +1377,8 @@
                 ${s.subOptions
                   .map(
                     (opt) => `
-                    <span class="bg-black/50 border border-white/10 px-2.5 py-1 text-slate-200">
-                      <strong style="color: ${s.accent}">+</strong> ${opt}
+                    <span class="px-2.5 py-1 bg-white/[0.04] border border-white/10 text-slate-200">
+                      <strong class="text-[#00ff9d]">+</strong> ${opt}
                     </span>
                   `
                   )
@@ -1442,30 +1405,86 @@
     }
 
     /* ==========================================================================
-       6. SIMULADOR DE RENDIMIENTO ANTES / DESPUÉS
+       6. NUEVO MÓDULO: PERFILES / BUILDS RECOMENDADOS EN 3D
+       ========================================================================== */
+    function initBuildsShowcase() {
+      const grid = document.getElementById("builds-grid");
+      if (!grid) return;
+
+      grid.innerHTML = CONFIG.builds
+        .map(
+          (b, idx) => `
+          <div class="card-3d hud-frame p-6 bg-[#070b16]/90 border border-white/10 flex flex-col justify-between">
+            <div class="card-3d-layer">
+              <div class="flex items-center justify-between font-mono-hud text-[10px] mb-3">
+                <span style="color: ${b.color}" class="font-bold tracking-widest">${b.tag}</span>
+                <span class="px-2 py-0.5 bg-white/5 text-white border border-white/10">${b.metric}</span>
+              </div>
+
+              <h3 class="font-display text-xl sm:text-2xl font-bold text-white mb-4">
+                ${b.name}
+              </h3>
+
+              <ul class="space-y-2 font-mono-hud text-xs text-slate-300 mb-6 border-t border-white/10 pt-4">
+                ${b.specs
+                  .map(
+                    (sp) => `
+                  <li class="flex items-center gap-2">
+                    <span style="color: ${b.color}">▹</span>
+                    <span>${sp}</span>
+                  </li>
+                `
+                  )
+                  .join("")}
+              </ul>
+            </div>
+
+            <button
+              type="button"
+              data-build-index="${idx}"
+              class="btn-cyber w-full justify-between !py-2.5 !px-4 mt-2"
+            >
+              <span>Cargar este Perfil</span>
+              <span style="color: ${b.color}">⚡</span>
+            </button>
+          </div>
+        `
+        )
+        .join("");
+
+      grid.querySelectorAll("[data-build-index]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const build = CONFIG.builds[Number(btn.getAttribute("data-build-index"))];
+          state.selectedDevice = build.device;
+          const notesInput = document.getElementById("quote-notes");
+          if (notesInput) notesInput.value = build.note;
+          selectServiceInQuote(build.serviceId, true);
+        });
+      });
+
+      init3DTiltCards();
+    }
+
+    /* ==========================================================================
+       7. SIMULADOR DE RENDIMIENTO
        ========================================================================== */
     function initPerformanceComparator() {
       const slider = document.getElementById("perf-slider");
       const updateMetrics = () => {
         const pct = Number(slider.value) / 100;
 
-        const temp = Math.round(88 - pct * 27); // 88°C a 61°C
-        const boot = Math.round(95 - pct * 84); // 95s a 11s
+        const temp = Math.round(86 - pct * 25);
+        const boot = Math.round(92 - pct * 81);
         const fpsBoost = Math.round(pct * 45);
 
-        const labelEl = document.getElementById("slider-label");
-        labelEl.textContent =
-          pct === 0 ? "0% (PC CON POLVO / LENTO)" : `${Math.round(pct * 100)}% OPTIMIZADO VINDEV`;
-        labelEl.style.color = pct < 0.4 ? "#ff0055" : "#00f5ff";
+        document.getElementById("slider-label").textContent =
+          pct === 0 ? "0% (PC LENTO Y CALIENTE)" : `${Math.round(pct * 100)}% POTENCIA VINDEV`;
 
-        const tempEl = document.getElementById("val-temp");
-        tempEl.textContent = temp;
-        tempEl.style.color = temp > 75 ? "#ff0055" : "#ffffff";
-
+        document.getElementById("val-temp").textContent = temp;
         document.getElementById("val-boot").textContent = boot;
         document.getElementById("val-fps").textContent = `+${fpsBoost}%`;
         document.getElementById("val-noise").textContent =
-          pct > 0.6 ? "SILENCIOSO" : pct > 0.25 ? "MODERADO" : "ALTO RUIDO";
+          pct > 0.6 ? "SILENCIOSO" : pct > 0.25 ? "MODERADO" : "RUIDOSO";
 
         document.getElementById("bar-temp").style.width = `${Math.max(25, 95 - pct * 60)}%`;
         document.getElementById("bar-boot").style.width = `${Math.max(15, 95 - pct * 80)}%`;
@@ -1478,7 +1497,7 @@
     }
 
     /* ==========================================================================
-       7. COTIZADOR EN 3 PASOS CONECTADO AL 302 430 1771
+       8. COTIZADOR DIRECTO
        ========================================================================== */
     function getActiveService() {
       return CONFIG.services.find((s) => s.id === state.activeServiceId) || CONFIG.services[0];
@@ -1508,7 +1527,7 @@
       const notes = document.getElementById("quote-notes")?.value.trim() || "";
 
       const optionsList = chosen.length > 0 ? chosen.join(" + ") : "Asesoría general";
-      let msg = `Hola ${CONFIG.brandName} (${CONFIG.phoneDisplay}), quiero cotizar *${srv.shortTitle}* para *${state.selectedDevice}*. Incluye: ${optionsList}.`;
+      let msg = `Hola ${CONFIG.brandName}, quiero cotizar *${srv.shortTitle}* para *${state.selectedDevice}*. Incluye: ${optionsList}.`;
       if (notes) {
         msg += ` Nota: "${notes}".`;
       }
@@ -1530,10 +1549,10 @@
             <button
               type="button"
               data-q-service="${s.id}"
-              class="hud-option w-full text-left py-3 px-4 flex items-center justify-between font-mono-hud text-xs ${active ? "active" : "text-slate-300"}"
+              class="hud-option w-full text-left py-3 px-4 flex items-center justify-between font-mono-hud text-xs ${active ? "active" : "text-slate-400"}"
             >
               <span>${s.index} // ${s.shortTitle}</span>
-              <span class="${active ? "text-[#00f5ff] font-bold" : "text-slate-500"}">${active ? "● ACTIVO" : "ELEGIR"}</span>
+              <span class="${active ? "text-[#00f5ff] font-bold" : "text-slate-600"}">${active ? "● ACTIVO" : "ELEGIR"}</span>
             </button>
           `;
         })
@@ -1546,10 +1565,10 @@
             <button
               type="button"
               data-q-device="${dev}"
-              class="hud-option py-3 px-3 text-left font-mono-hud text-xs ${active ? "active" : "text-slate-300"}"
+              class="hud-option py-3 px-3 text-left font-mono-hud text-xs ${active ? "active" : "text-slate-400"}"
             >
               <span class="block text-[10px] ${active ? "text-[#ff0055]" : "text-slate-500"}">EQUIPO</span>
-              <span class="font-semibold">${dev}</span>
+              <span>${dev}</span>
             </button>
           `;
         })
@@ -1562,9 +1581,9 @@
             <button
               type="button"
               data-q-sub="${opt}"
-              class="hud-option p-3.5 text-left flex items-start gap-3 ${checked ? "active" : "text-slate-300"}"
+              class="hud-option p-4 text-left flex items-start gap-3 ${checked ? "active" : "text-slate-400"}"
             >
-              <span class="font-mono-hud text-xs mt-0.5 ${checked ? "text-[#00ff9d] font-bold" : "text-slate-500"}">
+              <span class="font-mono-hud text-xs mt-0.5 ${checked ? "text-[#00ff9d]" : "text-slate-600"}">
                 ${checked ? "[✓]" : "[ ]"}
               </span>
               <span class="text-xs sm:text-sm leading-snug">${opt}</span>
@@ -1621,7 +1640,7 @@
 
         copyLabel.textContent = "¡Copiado!";
         setTimeout(() => {
-          copyLabel.textContent = "Copiar Texto";
+          copyLabel.textContent = "Copiar Solicitud";
         }, 2000);
       });
 
@@ -1651,27 +1670,25 @@
             }
           });
         },
-        { threshold: 0.12 }
+        { threshold: 0.1 }
       );
 
       document.querySelectorAll(".cyber-reveal").forEach((el) => observer.observe(el));
     }
 
-    // Inicialización General
     window.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("nav-brand").textContent = CONFIG.brandName;
-      document.getElementById("footer-brand").textContent = CONFIG.brandName;
       document.getElementById("year").textContent = new Date().getFullYear();
 
       initCyberCanvas3D();
       initScrambleEffects();
       initDiagnosticScanner();
       initServicesShowcase();
+      initBuildsShowcase();
       initPerformanceComparator();
       renderQuoteBuilder();
       initQuoteActions();
-      initScrollAndReveal();
       init3DTiltCards();
+      initScrollAndReveal();
     });
   </script>
 </body>
