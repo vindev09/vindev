@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VinDev // Soporte Técnico, Ensamble de PC, Optimización & Desarrollo Web</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tipografías Futuristas y Técnicas: Space Grotesk, Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       SISTEMA VISUAL FUTURISTA (CYBER-HUD / CERO CAJAS GENÉRICAS)
+       ========================================================================== */
+    :root {
+      --bg-abyss: #050608;
+      --bg-panel: rgba(8, 13, 22, 0.72);
+      --fg-main: #f1f5f9;
+      --fg-muted: #64748b;
+      --cyan: #00f0ff;
+      --cyan-dim: rgba(0, 240, 255, 0.16);
+      --blue: #3b82f6;
+      --emerald: #00ff9d;
+      --line: rgba(0, 240, 255, 0.14);
+      --line-subtle: rgba(255, 255, 255, 0.08);
+      --ease-cyber: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      border-radius: 0 !important; /* Cero rectángulos redondeados genéricos */
+    }
+
+    body {
+      background-color: var(--bg-abyss);
+      color: var(--fg-main);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .font-display {
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: -0.03em;
+    }
+
+    .font-mono-hud {
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Líneas de precisión HUD */
+    .hud-line-t { border-top: 1px solid var(--line-subtle); }
+    .hud-line-b { border-bottom: 1px solid var(--line-subtle); }
+    .hud-line-l { border-left: 1px solid var(--line-subtle); }
+    .hud-line-r { border-right: 1px solid var(--line-subtle); }
+
+    /* Esquinas técnicas de precisión (HUD Brackets) */
+    .hud-frame {
+      position: relative;
+    }
+    .hud-frame::before,
+    .hud-frame::after {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+      transition: all 0.4s var(--ease-cyber);
+    }
+    .hud-frame::before {
+      top: -1px;
+      left: -1px;
+      border-top: 2px solid var(--cyan);
+      border-left: 2px solid var(--cyan);
+    }
+    .hud-frame::after {
+      bottom: -1px;
+      right: -1px;
+      border-bottom: 2px solid var(--cyan);
+      border-right: 2px solid var(--cyan);
+    }
+    .hud-frame:hover::before,
+    .hud-frame:hover::after {
+      width: 18px;
+      height: 18px;
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.35);
+    }
+
+    /* Recorte geométrico angular estilo futurista (Chamfered Cut) */
+    .clip-chamfer {
+      clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+    }
+
+    /* Botones y Triggers Futuristas con Barrido Láser */
+    .btn-cyber {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.25rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--fg-main);
+      background: linear-gradient(90deg, rgba(0, 240, 255, 0.08) 0%, transparent 100%);
+      border-left: 2px solid var(--cyan);
+      border-bottom: 1px solid rgba(0, 240, 255, 0.28);
+      transition: all 0.35s var(--ease-cyber);
+      overflow: hidden;
+    }
+    .btn-cyber::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(0, 240, 255, 0.22), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.45s var(--ease-cyber);
+    }
+    .btn-cyber:hover::before {
+      transform: translateX(0);
+    }
+    .btn-cyber:hover {
+      color: #ffffff;
+      border-bottom-color: var(--cyan);
+      padding-left: 1.5rem;
+      text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+    }
+
+    /* Efecto de Escaneo Láser Vertical */
+    @keyframes laserScan {
+      0%   { top: -10%; opacity: 0; }
+      15%  { opacity: 1; }
+      85%  { opacity: 1; }
+      100% { top: 105%; opacity: 0; }
+    }
+    .laser-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cyan), #ffffff, var(--cyan), transparent);
+      box-shadow: 0 0 18px 2px var(--cyan);
+      animation: laserScan 3.2s infinite ease-in-out;
+      pointer-events: none;
+    }
+
+    /* Animación de ondas de telemetría en vivo */
+    @keyframes eqPulse {
+      0%, 100% { transform: scaleY(0.25); opacity: 0.5; }
+      50%      { transform: scaleY(1); opacity: 1; }
+    }
+    .telemetry-bar {
+      width: 3px;
+      height: 18px;
+      background-color: var(--cyan);
+      transform-origin: bottom;
+      animation: eqPulse 1.2s infinite ease-in-out;
+    }
+
+    /* Revelado suave al hacer scroll */
+    .cyber-reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.8s var(--ease-cyber), transform 0.8s var(--ease-cyber);
+    }
+    .cyber-reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Slider futurista */
+    input[type="range"].cyber-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(239, 68, 68, 0.5), var(--cyan));
+      outline: none;
+    }
+    input[type="range"].cyber-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 28px;
+      background: var(--cyan);
+      border: 2px solid #04060a;
+      box-shadow: 0 0 14px var(--cyan);
+      cursor: ew-resize;
+      transition: transform 0.2s ease;
+    }
+    input[type="range"].cyber-slider::-webkit-slider-thumb:hover {
+      transform: scaleY(1.2);
+    }
+
+    /* Opciones interactivas sin cajas encerradas */
+    .hud-option {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      border-left: 2px solid transparent;
+      transition: all 0.3s var(--ease-cyber);
+    }
+    .hud-option:hover {
+      border-left-color: rgba(0, 240, 255, 0.5);
+      background: linear-gradient(90deg, rgba(0, 240, 255, 0.05), transparent);
+      padding-left: 0.75rem;
+    }
+    .hud-option.active {
+      border-left-color: var(--cyan);
+      border-bottom-color: rgba(0, 240, 255, 0.4);
+      background: linear-gradient(90deg, rgba(0, 240, 255, 0.12), transparent);
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body class="selection:bg-[#00f0ff] selection:text-black">
+
+  <!-- ==========================================================================
+       FONDO INTERACTIVO FUTURISTA (CANVAS DE CIRCUITOS Y NODOS REACTIVOS)
+       ========================================================================== -->
+  <canvas id="cyber-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-55"></canvas>
+
+  <!-- Barra de progreso láser superior -->
+  <div class="fixed top-0 left-0 right-0 h-[2px] z-[60] bg-white/5">
+    <div id="scroll-laser-bar" class="h-full bg-[#00f0ff] shadow-[0_0_12px_#00f0ff] w-0 transition-all duration-75"></div>
+  </div>
+
+  <!-- ==========================================================================
+       1. HEADER TÉCNICO HUD (VINDEV)
+       ========================================================================== -->
+  <header class="fixed top-0 inset-x-0 z-50 bg-[#050608]/85 backdrop-blur-md hud-line-b">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
+      <!-- Marca VinDev -->
+      <a href="#" class="flex items-center gap-4 group">
+        <div class="w-2.5 h-2.5 bg-[#00f0ff] shadow-[0_0_10px_#00f0ff] group-hover:rotate-45 transition-transform"></div>
+        <span id="nav-brand" class="font-display font-bold text-xl tracking-tight text-white">VinDev</span>
+        <span class="hidden md:inline-block font-mono-hud text-[11px] text-slate-400 border-l border-white/15 pl-4 tracking-wider">
+          SOPORTE TÉCNICO · ENSAMBLE DE PC · DESARROLLO WEB
+        </span>
+      </a>
+
+      <!-- Navegación con Decodificación de Texto -->
+      <nav class="hidden lg:flex items-center gap-8 font-mono-hud text-xs uppercase tracking-widest text-slate-400">
+        <a href="#escaner" class="hover:text-[#00f0ff] transition-colors scramble-hover" data-text="01. Diagnóstico">// 01. Diagnóstico</a>
+        <a href="#servicios" class="hover:text-[#00f0ff] transition-colors scramble-hover" data-text="02. Servicios">// 02. Servicios</a>
+        <a href="#rendimiento" class="hover:text-[#00f0ff] transition-colors scramble-hover" data-text="03. Rendimiento">// 03. Rendimiento</a>
+        <a href="#cotizador" class="hover:text-[#00f0ff] transition-colors scramble-hover" data-text="04. Cotizar">// 04. Cotizar</a>
+      </nav>
+
+      <!-- Estado + Acción Rápida -->
+      <div class="flex items-center gap-5">
+        <div class="hidden sm:flex items-center gap-2 font-mono-hud text-[11px] text-emerald-400">
+          <span class="w-1.5 h-1.5 bg-emerald-400 animate-ping"></span>
+          <span>EN LÍNEA</span>
+        </div>
+        <a href="#cotizador" class="btn-cyber !py-2 !px-4">
+          <span>Agendar / Cotizar</span>
+          <span class="text-[#00f0ff]">↗</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       2. HERO SECTION FUTURISTA + MONITOREO EN TIEMPO REAL
+       ========================================================================== -->
+  <section class="relative z-10 pt-28 md:pt-36 pb-20 max-w-[1440px] mx-auto px-6 md:px-12">
+    <!-- Barra de Telemetría Superior -->
+    <div class="grid grid-cols-2 md:grid-cols-12 hud-line-b pb-5 mb-12 gap-4 font-mono-hud text-[11px] text-slate-400 uppercase tracking-widest">
+      <div class="col-span-2 md:col-span-4 flex items-center gap-2 text-[#00f0ff]">
+        <span>+ SISTEMA VINDEV // ACTIVO</span>
+      </div>
+      <div class="col-span-1 md:col-span-4">COMPUTADORES DE ESCRITORIO · PORTÁTILES · PÁGINAS WEB</div>
+      <div class="col-span-1 md:col-span-4 md:text-right text-slate-300" id="hud-coords">
+        TEMP. OBJETIVO: &lt; 65°C // 100% ESTABILIDAD
+      </div>
+    </div>
+
+    <!-- Titular Principal con Decodificación -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end mb-16">
+      <div class="lg:col-span-8 space-y-6">
+        <div class="inline-flex items-center gap-3 font-mono-hud text-xs text-[#00f0ff] tracking-widest uppercase">
+          <span>[ VINDEV // INGENIERÍA PRÁCTICA PARA TU EQUIPO Y TU NEGOCIO ]</span>
+        </div>
+
+        <h1 class="font-display text-5xl sm:text-7xl xl:text-[5.2rem] font-bold leading-[0.95] tracking-tight text-white">
+          <span class="block scramble-init">POTENCIA REAL</span>
+          <span class="block text-transparent bg-clip-text bg-gradient-to-r from-[#00f0ff] via-[#00ff9d] to-slate-400">
+            PARA TU PC &amp; WEB.
+          </span>
+        </h1>
+      </div>
+
+      <!-- Descripción realista y directa -->
+      <div class="lg:col-span-4 lg:pl-8 hud-line-l space-y-8 cyber-reveal">
+        <p class="text-slate-300 text-base sm:text-lg leading-relaxed font-light">
+          En <strong class="text-white font-medium">VinDev</strong> dejamos tu computador como nuevo o lo armamos desde cero a tu medida: mantenimiento térmico, cambio de piezas, instalación de programas, juegos y creación de páginas web modernas.
+        </p>
+        <div class="flex flex-wrap items-center gap-6">
+          <a href="#cotizador" class="btn-cyber">
+            <span>Cotizar mi Servicio</span>
+            <span class="text-[#00f0ff]">↗</span>
+          </a>
+          <a href="#escaner" class="font-mono-hud text-xs uppercase tracking-widest text-slate-400 hover:text-[#00f0ff] transition-colors py-2 border-b border-transparent hover:border-[#00f0ff]">
+            [ Probar Escáner de Diagnóstico ↓ ]
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Indicadores Reales en Retícula Abierta + Visor HUD con Escaneo Láser -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 hud-line-t hud-line-b py-6 mb-10 gap-6">
+      <div class="pr-4">
+        <span class="font-mono-hud text-[10px] text-[#00f0ff] uppercase tracking-widest block mb-1">01 // ENSAMBLE &amp; ASESORÍA</span>
+        <span class="font-display text-2xl sm:text-3xl font-semibold text-white">Piezas Exactas</span>
+        <span class="block text-xs text-slate-400 mt-1">Cero gastos innecesarios en tu armado</span>
+      </div>
+      <div class="hud-line-l pl-6 pr-4">
+        <span class="font-mono-hud text-[10px] text-[#00f0ff] uppercase tracking-widest block mb-1">02 // MANTENIMIENTO PRO</span>
+        <span class="font-display text-2xl sm:text-3xl font-semibold text-white">-15°C a -25°C</span>
+        <span class="block text-xs text-slate-400 mt-1">Limpieza profunda y pasta térmica de calidad</span>
+      </div>
+      <div class="hud-line-l pl-6 pr-4">
+        <span class="font-mono-hud text-[10px] text-[#00f0ff] uppercase tracking-widest block mb-1">03 // SISTEMA, APPS &amp; JUEGOS</span>
+        <span class="font-display text-2xl sm:text-3xl font-semibold text-white">10x Más Rápido</span>
+        <span class="block text-xs text-slate-400 mt-1">Windows limpio, SSD, drivers y programas</span>
+      </div>
+      <div class="hud-line-l pl-6">
+        <span class="font-mono-hud text-[10px] text-[#00f0ff] uppercase tracking-widest block mb-1">04 // DESARROLLO WEB</span>
+        <span class="font-display text-2xl sm:text-3xl font-semibold text-white">Diseño Moderno</span>
+        <span class="block text-xs text-slate-400 mt-1">Páginas rápidas listas para celular y PC</span>
+      </div>
+    </div>
+
+    <!-- Escenario Visual Futurista con Barrido Láser -->
+    <div class="hud-frame relative w-full h-[46vh] sm:h-[60vh] overflow-hidden bg-slate-950 clip-chamfer">
+      <div class="laser-line z-20"></div>
+      <img
+        id="hero-hud-img"
+        src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=2000&q=85"
+        onerror="this.src='https://placehold.co/1920x1080/050608/00f0ff?text=VINDEV+SYSTEMS'"
+        alt="VinDev Hardware y Desarrollo Web"
+        class="w-full h-full object-cover object-center opacity-70 scale-105 transition-transform duration-1000"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-[#050608] via-[#050608]/25 to-transparent"></div>
+
+      <!-- Superposición HUD en vivo -->
+      <div class="absolute inset-x-6 sm:inset-x-10 bottom-6 flex flex-wrap items-end justify-between gap-4 font-mono-hud text-xs">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2 text-[#00f0ff]">
+            <span>▣ VISOR DE INGENIERÍA // VINDEV</span>
+          </div>
+          <p class="text-slate-300">ARMADO DE COMPUTADORES · CAMBIO DE PIEZAS · OPTIMIZACIÓN · CREACIÓN WEB</p>
+        </div>
+
+        <!-- Ecualizador de telemetría animado -->
+        <div class="flex items-center gap-4">
+          <div class="flex items-end gap-1 h-5">
+            <div class="telemetry-bar" style="animation-delay: 0.1s"></div>
+            <div class="telemetry-bar" style="animation-delay: 0.3s"></div>
+            <div class="telemetry-bar" style="animation-delay: 0.5s"></div>
+            <div class="telemetry-bar" style="animation-delay: 0.2s"></div>
+            <div class="telemetry-bar" style="animation-delay: 0.4s"></div>
+          </div>
+          <span class="text-slate-400">DIAGNÓSTICO PRECISO Y GARANTIZADO</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       3. ESCÁNER INTERACTIVO DE DIAGNÓSTICO EN VIVO (NOVEDAD FUTURISTA)
+       ========================================================================== -->
+  <section id="escaner" class="relative z-10 hud-line-t bg-[#060a12]/90">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 py-24">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-12 hud-line-b items-end">
+        <div class="lg:col-span-7 cyber-reveal">
+          <span class="font-mono-hud text-xs text-[#00f0ff] uppercase tracking-widest block mb-2">
+            // 01. ESCÁNER INTERACTIVO VINDEV
+          </span>
+          <h2 class="font-display text-3xl sm:text-5xl font-bold uppercase text-white">
+            ¿Qué necesita tu computador o negocio hoy?
+          </h2>
+        </div>
+        <div class="lg:col-span-5 lg:text-right font-mono-hud text-xs text-slate-400">
+          SELECCIONA UN CASO REAL PARA EJECUTAR EL ANÁLISIS TÉCNICO Y VER LA SOLUCIÓN RECOMENDADA
+        </div>
+      </div>
+
+      <!-- Panel Dividido del Escáner -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 pt-12 items-start">
+        
+        <!-- Lista de Síntomas / Necesidades Reales -->
+        <div class="lg:col-span-5 space-y-2" id="diagnostic-triggers">
+          <!-- Renderizado desde CONFIG.diagnostics -->
+        </div>
+
+        <!-- Visor HUD de Resultado de Escaneo -->
+        <div class="lg:col-span-7 lg:pl-10 hud-line-l">
+          <div id="scanner-panel" class="hud-frame p-6 sm:p-10 bg-[#050608]/90 relative overflow-hidden">
+            <div id="scanner-laser" class="laser-line"></div>
+
+            <div class="flex flex-wrap items-center justify-between gap-4 hud-line-b pb-4 mb-6 font-mono-hud text-xs">
+              <span id="scan-code" class="text-[#00f0ff]">ANÁLISIS // CASO_01</span>
+              <span id="scan-status" class="text-[#00ff9d]">● SOLUCIÓN DISPONIBLE EN VINDEV</span>
+            </div>
+
+            <h3 id="scan-title" class="font-display text-2xl sm:text-4xl font-bold text-white mb-4">
+              Diagnóstico del Sistema
+            </h3>
+
+            <p id="scan-diagnosis" class="text-slate-300 text-sm sm:text-base leading-relaxed font-light mb-8">
+              <!-- Texto dinámico -->
+            </p>
+
+            <!-- Barras de impacto técnico -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 hud-line-t hud-line-b py-6 mb-8" id="scan-bars">
+              <!-- Barras dinámicas -->
+            </div>
+
+            <!-- Qué hacemos exactamente + Botón directo -->
+            <div class="flex flex-wrap items-center justify-between gap-6">
+              <div>
+                <span class="font-mono-hud text-[11px] text-slate-400 uppercase block mb-2">TRABAJO RECOMENDADO:</span>
+                <span id="scan-solution-tag" class="font-mono-hud text-sm text-white font-medium"></span>
+              </div>
+              <button
+                type="button"
+                id="scan-action-btn"
+                class="btn-cyber"
+              >
+                <span>Solicitar esta Solución</span>
+                <span class="text-[#00f0ff]">↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       4. LOS 5 SERVICIOS REALISTAS DE VINCETECH (VISOR HOLOGRÁFICO + LISTA)
+       ========================================================================== -->
+  <section id="servicios" class="relative z-10 hud-line-t">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 py-24">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-14 hud-line-b items-end">
+        <div class="lg:col-span-8 cyber-reveal">
+          <span class="font-mono-hud text-xs text-[#00f0ff] uppercase tracking-widest block mb-2">
+            // 02. CATÁLOGO DE SERVICIOS REALES
+          </span>
+          <h2 class="font-display text-4xl sm:text-6xl font-bold uppercase leading-[0.96] text-white">
+            Soluciones claras para tu PC y presencia web.
+          </h2>
+        </div>
+        <div class="lg:col-span-4 lg:text-right font-mono-hud text-xs text-slate-400">
+          HAZ CLIC EN CUALQUIER SERVICIO PARA CARGARLO EN EL COTIZADOR
+        </div>
+      </div>
+
+      <!-- Split-Screen: Visor Holográfico Fijo a la Izquierda + 5 Servicios a la Derecha -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 pt-12 items-start">
+        
+        <!-- Visor Izquierdo Sticky -->
+        <div class="lg:col-span-5 lg:sticky lg:top-24 space-y-5">
+          <div class="flex items-center justify-between font-mono-hud text-xs hud-line-b pb-3">
+            <span id="stage-index" class="text-[#00f0ff]">SERVICIO // 01</span>
+            <span id="stage-category" class="text-slate-400">HARDWARE &amp; ARMADO</span>
+          </div>
+
+          <!-- Imagen con barrido láser y recorte angular -->
+          <div class="hud-frame relative aspect-[4/3] w-full overflow-hidden bg-slate-950 clip-chamfer">
+            <div class="laser-line"></div>
+            <img
+              id="stage-img"
+              src="https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=1200&q=85"
+              onerror="this.src='https://placehold.co/1000x750/050608/00f0ff?text=VINDEV'"
+              alt="Vista previa del servicio VinDev"
+              class="w-full h-full object-cover opacity-80 transition-all duration-700"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050608] via-transparent to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4 flex justify-between items-end font-mono-hud text-xs">
+              <span id="stage-metric-label" class="text-slate-400">BENEFICIO CLAVE</span>
+              <span id="stage-metric-value" class="text-[#00f0ff] font-semibold">COMPATIBILIDAD 100%</span>
+            </div>
+          </div>
+
+          <!-- Datos Prácticos del Servicio -->
+          <div class="space-y-2.5 pt-2 font-mono-hud text-xs">
+            <div class="flex justify-between hud-line-b pb-2">
+              <span class="text-slate-500">MODALIDAD</span>
+              <span id="stage-mode" class="text-slate-200">PRESENCIAL / A DOMICILIO</span>
+            </div>
+            <div class="flex justify-between hud-line-b pb-2">
+              <span class="text-slate-500">TIEMPO ESTIMADO</span>
+              <span id="stage-time" class="text-slate-200">MISMO DÍA O 24H</span>
+            </div>
+            <div class="pt-3">
+              <button
+                type="button"
+                id="stage-cta"
+                class="btn-cyber w-full justify-between"
+              >
+                <span id="stage-cta-text">Cotizar este Servicio ahora</span>
+                <span class="text-[#00f0ff]">↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lista de los 5 Servicios Realistas -->
+        <div id="services-list" class="lg:col-span-7 lg:pl-10 hud-line-l divide-y divide-white/10">
+          <!-- Renderizado dinámicamente desde CONFIG.services -->
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       5. SIMULADOR DE RENDIMIENTO REAL (ANTES VS. DESPUÉS DE VINDEV)
+       ========================================================================== -->
+  <section id="rendimiento" class="relative z-10 hud-line-t hud-line-b bg-[#060a12]/90">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 py-24">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end pb-14 hud-line-b">
+        <div class="lg:col-span-7 cyber-reveal">
+          <span class="font-mono-hud text-xs text-[#00ff9d] uppercase tracking-widest block mb-2">
+            // 03. IMPACTO REAL EN TU COMPUTADOR
+          </span>
+          <h2 class="font-display text-3xl sm:text-5xl font-bold uppercase text-white">
+            Compara un PC lento o con polvo vs. optimizado en VinDev.
+          </h2>
+        </div>
+
+        <div class="lg:col-span-5 space-y-3">
+          <div class="flex justify-between font-mono-hud text-xs">
+            <span class="text-red-400">0% (LENTO / CALIENTE)</span>
+            <span id="slider-label" class="text-[#00f0ff] font-semibold">100% OPTIMIZADO POR VINDEV</span>
+          </div>
+          <input
+            id="perf-slider"
+            type="range"
+            min="0"
+            max="100"
+            value="100"
+            aria-label="Comparador de rendimiento"
+            class="cyber-slider"
+          />
+          <p class="font-mono-hud text-[11px] text-slate-400">
+            MUEVE LA BARRA PARA VER EL CAMBIO EN TEMPERATURA, VELOCIDAD DE ENCENDIDO Y FPS
+          </p>
+        </div>
+      </div>
+
+      <!-- 4 Métricas Realistas -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-white/10 pt-12">
+        
+        <div class="py-6 sm:px-6 first:pl-0">
+          <span class="font-mono-hud text-xs text-slate-400 block mb-3">01 // TEMPERATURA PROCESADOR / VIDEO</span>
+          <div class="flex items-baseline gap-2">
+            <span id="val-temp" class="font-display text-6xl font-bold text-white">61</span>
+            <span class="font-mono-hud text-sm text-[#00f0ff]">°C</span>
+          </div>
+          <div class="w-full h-[2px] bg-white/10 mt-5">
+            <div id="bar-temp" class="h-full bg-[#00f0ff] transition-all duration-150" style="width: 35%"></div>
+          </div>
+          <p class="font-mono-hud text-[11px] text-slate-400 mt-3">
+            Con limpieza interna y cambio de pasta térmica de alta conductividad.
+          </p>
+        </div>
+
+        <div class="py-6 sm:px-6">
+          <span class="font-mono-hud text-xs text-slate-400 block mb-3">02 // TIEMPO DE ENCENDIDO DE WINDOWS</span>
+          <div class="flex items-baseline gap-2">
+            <span id="val-boot" class="font-display text-6xl font-bold text-white">11</span>
+            <span class="font-mono-hud text-sm text-emerald-400">SEGUNDOS</span>
+          </div>
+          <div class="w-full h-[2px] bg-white/10 mt-5">
+            <div id="bar-boot" class="h-full bg-emerald-400 transition-all duration-150" style="width: 15%"></div>
+          </div>
+          <p class="font-mono-hud text-[11px] text-slate-400 mt-3">
+            Instalando unidad SSD y sistema Windows configurado sin programas basura.
+          </p>
+        </div>
+
+        <div class="py-6 sm:px-6">
+          <span class="font-mono-hud text-xs text-slate-400 block mb-3">03 // FLUIDEZ EN JUEGOS Y PROGRAMAS</span>
+          <div class="flex items-baseline gap-2">
+            <span id="val-fps" class="font-display text-6xl font-bold text-white">+45%</span>
+            <span class="font-mono-hud text-sm text-[#00f0ff]">ESTABILIDAD</span>
+          </div>
+          <div class="w-full h-[2px] bg-white/10 mt-5">
+            <div id="bar-fps" class="h-full bg-[#00f0ff] transition-all duration-150" style="width: 95%"></div>
+          </div>
+          <p class="font-mono-hud text-[11px] text-slate-400 mt-3">
+            Drivers actualizados, perfil de memoria RAM activo y sin tirones al jugar.
+          </p>
+        </div>
+
+        <div class="py-6 sm:px-6 last:pr-0">
+          <span class="font-mono-hud text-xs text-slate-400 block mb-3">04 // RUIDO DE VENTILADORES</span>
+          <div class="flex items-baseline gap-2">
+            <span id="val-noise" class="font-display text-5xl font-bold text-white">SILENCIOSO</span>
+          </div>
+          <div class="w-full h-[2px] bg-white/10 mt-5">
+            <div id="bar-noise" class="h-full bg-emerald-400 transition-all duration-150" style="width: 22%"></div>
+          </div>
+          <p class="font-mono-hud text-[11px] text-slate-400 mt-3">
+            Sin ventiladores forzados al máximo por exceso de polvo acumulado.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       6. COTIZADOR FUTURISTA DIRECTO A WHATSAPP (SIN CAJAS GENÉRICAS)
+       ========================================================================== -->
+  <section id="cotizador" class="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 py-28">
+    
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-12 hud-line-b items-end">
+      <div class="lg:col-span-8 cyber-reveal">
+        <span class="font-mono-hud text-xs text-[#00f0ff] uppercase tracking-widest block mb-2">
+          // 04. ASESORÍA Y COTIZACIÓN DIRECTA
+        </span>
+        <h2 class="font-display text-4xl sm:text-5xl font-bold uppercase text-white">
+          Configura tu solicitud para VinDev en 3 pasos.
+        </h2>
+      </div>
+      <div class="lg:col-span-4 lg:text-right font-mono-hud text-xs text-slate-400">
+        RESPUESTA RÁPIDA Y ASESORÍA HONESTA POR WHATSAPP
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 pt-12">
+      
+      <!-- Paso 1 y 2: Categoría de Servicio y Tipo de Equipo -->
+      <div class="lg:col-span-5 space-y-10">
+        <div>
+          <span class="font-mono-hud text-xs text-[#00f0ff] uppercase tracking-widest block mb-4">
+            PASO 01 // ¿QUÉ SERVICIO NECESITAS?
+          </span>
+          <div id="quote-services" class="space-y-1">
+            <!-- Botones generados desde CONFIG.services -->
+          </div>
+        </div>
+
+        <div>
+          <span class="font-mono-hud text-xs text-[#00f0ff] uppercase tracking-widest block mb-4">
+            PASO 02 // ¿PARA QUÉ TIPO DE EQUIPO O PROYECTO?
+          </span>
+          <div id="quote-devices" class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <!-- PC Escritorio / Portátil / Proyecto Web -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 3: Opciones específicas + Detalles + Envío -->
+      <div class="lg:col-span-7 lg:pl-10 hud-line-l flex flex-col justify-between space-y-10">
+        <div>
+          <span class="font-mono-hud text-xs text-[#00f0ff] uppercase tracking-widest block mb-4">
+            PASO 03 // MARCA LO QUE TE GUSTARÍA INCLUIR (PUEDES ELEGIR VARIOS):
+          </span>
+          <div id="quote-suboptions" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- Sub-opciones dinámicas -->
+          </div>
+
+          <!-- Línea abierta para detalles opcionales -->
+          <div class="mt-10 pt-8 hud-line-t">
+            <label for="quote-notes" class="font-mono-hud text-xs text-slate-300 uppercase tracking-wider block mb-3">
+              DETALLES ADICIONALES (OPCIONAL — EJ: MODELO DE TU PC, QUÉ JUEGOS/PROGRAMAS BUSCAS O TU PRESUPUESTO):
+            </label>
+            <input
+              id="quote-notes"
+              type="text"
+              placeholder="Ej: Tengo un portátil Asus que se calienta, o quiero armar un PC para jugar y estudiar..."
+              class="w-full bg-transparent border-b border-white/25 py-3 text-base text-white placeholder-slate-600 focus:outline-none focus:border-[#00f0ff] transition"
+            />
+          </div>
+        </div>
+
+        <!-- Consola de Resumen y Disparo a WhatsApp -->
+        <div class="hud-frame bg-[#060b14] p-6 hud-line-t">
+          <div class="font-mono-hud text-xs text-slate-400 mb-2">VISTA PREVIA DE TU SOLICITUD:</div>
+          <div id="quote-summary-preview" class="font-mono-hud text-xs sm:text-sm text-white mb-6 leading-relaxed">
+            <!-- Resumen en vivo -->
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-4 pt-4 hud-line-t">
+            <button
+              type="button"
+              id="btn-copy-quote"
+              class="font-mono-hud text-xs uppercase tracking-widest text-slate-400 hover:text-[#00f0ff] transition-colors py-2"
+            >
+              [ <span id="copy-label">Copiar Texto</span> ⧉ ]
+            </button>
+
+            <button
+              type="button"
+              id="btn-wa-quote"
+              class="btn-cyber !border-[#00ff9d] !bg-emerald-500/10 hover:!bg-emerald-500/20"
+            >
+              <span>Enviar a VinDev por WhatsApp</span>
+              <span class="text-[#00ff9d]">↗</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       7. FOOTER VINDEV
+       ========================================================================== -->
+  <footer class="relative z-10 hud-line-t py-12 px-6 md:px-12 max-w-[1440px] mx-auto font-mono-hud text-xs text-slate-500">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+      <div>
+        <span class="text-white font-bold text-sm tracking-tight" id="footer-brand">VinDev</span>
+        <span class="block mt-1 text-slate-400">SOPORTE TÉCNICO · ENSAMBLE DE PC · PROGRAMAS · PÁGINAS WEB</span>
+      </div>
+      <div class="md:text-center">
+        <span class="text-[#00f0ff]">ATENCIÓN PERSONALIZADA</span>
+        <span class="block mt-1">ASESORÍA CLARA, REPUESTOS DE CALIDAD Y TRABAJO GARANTIZADO</span>
+      </div>
+      <div class="md:text-right">
+        <a href="#" class="text-slate-300 hover:text-[#00f0ff] transition-colors">[ VOLVER ARRIBA ↑ ]</a>
+        <span class="block mt-1">© <span id="year"></span> VINDEV. TODOS LOS DERECHOS RESERVADOS.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       LÓGICA CENTRALIZADA Y OPTIMIZADA (TODO EDITABLE EN CONFIG)
+       ========================================================================== -->
+  <script>
+    /**
+     * CONFIGURACIÓN CENTRAL DE VINDEV
+     * Aquí puedes cambiar tu número de WhatsApp, textos o servicios en segundos.
+     */
+    const CONFIG = {
+      brandName: "VinDev",
+      whatsappNumber: "573000000000", // Cambia este número por tu WhatsApp real (código de país + número)
+      deviceTypes: [
+        "PC de Escritorio / Torre",
+        "Computador Portátil",
+        "Sitio / Página Web"
+      ],
+      diagnostics: [
+        {
+          id: "lento",
+          code: "CASO_01 // LENTITUD",
+          symptom: "Mi PC está muy lento al prender o abrir programas",
+          title: "Cuello de Botella en Almacenamiento o Sistema Saturado",
+          diagnosis: "Cuando un PC o portátil tarda minutos en encender o se congela al abrir el navegador, casi siempre se debe a un disco duro mecánico antiguo (HDD), falta de memoria RAM o un Windows saturado de procesos en segundo plano.",
+          bars: [
+            { label: "VELOCIDAD CON SSD NVMe/SATA", val: "10x Más Rápido" },
+            { label: "TIEMPO DE ARRANQUE", val: "10 a 15 Seg" },
+            { label: "ARCHIVOS PERSONALES", val: "100% Respaldados" }
+          ],
+          solutionTag: "Instalación de Disco Sólido (SSD) + Ampliación RAM + Optimización de Windows",
+          targetServiceId: "piezas"
+        },
+        {
+          id: "calor",
+          code: "CASO_02 // TEMPERATURA",
+          symptom: "Se calienta demasiado, suena fuerte o se apaga jugando",
+          title: "Saturación Térmica y Pasta Térmica Seca",
+          diagnosis: "El polvo acumulado bloquea las rejillas de ventilación y la pasta térmica de fábrica pierde su capacidad de transferir calor. Esto hace que el procesador baje su rendimiento (Thermal Throttling) o se apague por protección.",
+          bars: [
+            { label: "REDUCCIÓN DE TEMPERATURA", val: "-15°C a -25°C" },
+            { label: "RUIDO DE VENTILADORES", val: "Mínimo y Estable" },
+            { label: "VIDA ÚTIL DE PIEZAS", val: "Máxima Protección" }
+          ],
+          solutionTag: "Mantenimiento Preventivo Profundo + Pasta Térmica de Alta Conductividad",
+          targetServiceId: "mantenimiento"
+        },
+        {
+          id: "armar",
+          code: "CASO_03 // ENSAMBLE DESDE CERO",
+          symptom: "Quiero armar un PC desde cero o elegir bien las piezas",
+          title: "Arquitectura de PC Personalizada sin Malgastar Dinero",
+          diagnosis: "Comprar un PC prearmado suele incluir fuentes de poder genéricas o piezas desbalanceadas. En VinDev elegimos cada componente según tu presupuesto para que todo funcione en perfecta sintonía.",
+          bars: [
+            { label: "COMPATIBILIDAD DE PIEZAS", val: "100% Garantizada" },
+            { label: "MANEJO DE CABLES", val: "Limpio y Ordenado" },
+            { label: "CONFIGURACIÓN BIOS/RAM", val: "Lista para Usar" }
+          ],
+          solutionTag: "Asesoría de Componentes + Ensamble Profesional + Pruebas de Estabilidad",
+          targetServiceId: "ensamble"
+        },
+        {
+          id: "programas",
+          code: "CASO_04 // SISTEMA, APPS & JUEGOS",
+          symptom: "Necesito formatear, instalar programas o mejorar FPS en juegos",
+          title: "Instalación Limpia, Programas Esenciales y Ajuste Gaming",
+          diagnosis: "Un sistema recién instalado, con los drivers oficiales correctos y sin publicidad ni servicios innecesarios de Windows, aprovecha toda la potencia de tu procesador y tarjeta gráfica.",
+          bars: [
+            { label: "SISTEMA OPERATIVO", val: "Win 10 / Win 11 Limpio" },
+            { label: "SUITE DE PROGRAMAS", val: "Trabajo, Estudio y Diseño" },
+            { label: "RENDIMIENTO EN JUEGOS", val: "Más FPS y Menos Lag" }
+          ],
+          solutionTag: "Formateo Profesional + Instalación de Programas y Juegos + Optimización",
+          targetServiceId: "optimizacion"
+        },
+        {
+          id: "web",
+          code: "CASO_05 // PRESENCIA EN INTERNET",
+          symptom: "Quiero crear una página web moderna para mi negocio",
+          title: "Diseño y Creación de Páginas Web Modernas y Rápidas",
+          diagnosis: "Hoy en día tus clientes buscan en internet antes de comprar. En VinDev diseñamos tu página web con apariencia profesional, adaptable a celulares, ultrarrápida y conectada directo a tu WhatsApp.",
+          bars: [
+            { label: "DISEÑO ADAPTADO A CELULAR", val: "100% Responsivo" },
+            { label: "VELOCIDAD DE CARGA", val: "Instantánea" },
+            { label: "CONTACTO DIRECTO", val: "Integración WhatsApp" }
+          ],
+          solutionTag: "Diseño y Desarrollo de Página Web a Medida",
+          targetServiceId: "web"
+        }
+      ],
+      services: [
+        {
+          id: "ensamble",
+          index: "01",
+          category: "HARDWARE & ARMADO",
+          title: "Ensamble de PC a Medida & Asesoría",
+          shortTitle: "Ensamble de PC / Asesoría",
+          desc: "Te asesoramos para comprar las piezas exactas según tu presupuesto y necesidad (gaming, arquitectura, diseño, oficina o estudio). Armamos tu computador desde cero con gestión profesional de cables, configuración de BIOS y pruebas de temperatura.",
+          metricLabel: "COMPATIBILIDAD",
+          metricValue: "100% GARANTIZADA",
+          mode: "PRESENCIAL / ENTREGA LISTA",
+          time: "24 A 48 HORAS",
+          img: "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=1200&q=85",
+          subOptions: [
+            "Asesoría para elegir piezas según mi presupuesto",
+            "Ensamble completo desde cero con manejo de cables",
+            "Actualización de BIOS y perfil XMP/EXPO de RAM",
+            "Pruebas de estabilidad y temperaturas antes de entregar"
+          ]
+        },
+        {
+          id: "mantenimiento",
+          index: "02",
+          category: "LIMPIEZA & TEMPERATURA",
+          title: "Mantenimiento Preventivo & Pasta Térmica",
+          shortTitle: "Mantenimiento y Limpieza",
+          desc: "Desarmamos y limpiamos a fondo tu torre o portátil para eliminar polvo acumulado en ventiladores, disipadores y placa base. Aplicamos pasta térmica de alta conductividad para bajar temperaturas, evitar apagones y reducir el ruido.",
+          metricLabel: "MEJORA TÉRMICA",
+          metricValue: "-15°C A -25°C MENOS",
+          mode: "TALLER / RECOGIDA / DOMICILIO",
+          time: "MISMO DÍA (2 A 4 HORAS)",
+          img: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=1200&q=85",
+          subOptions: [
+            "Limpieza interna profunda de polvo y ventiladores",
+            "Cambio de pasta térmica de alta calidad (CPU / GPU)",
+            "Revisión de almohadillas térmicas (Thermal Pads)",
+            "Lubricación y ajuste de flujo de aire del chasis"
+          ]
+        },
+        {
+          id: "piezas",
+          index: "03",
+          category: "UPGRADE DE COMPONENTES",
+          title: "Cambio de Piezas & Actualización (SSD, RAM, GPU)",
+          shortTitle: "Cambio o Mejora de Piezas",
+          desc: "Revivimos computadores lentos o potenciamos tu equipo actual instalando discos de estado sólido (SSD NVMe/SATA), más memoria RAM, tarjetas de video, fuentes de poder certificadas o cambio de chasis sin perder tu información.",
+          metricLabel: "VELOCIDAD DE CARGA",
+          metricValue: "HASTA 10X MÁS RÁPIDO",
+          mode: "PRESENCIAL / A DOMICILIO",
+          time: "MISMO DÍA",
+          img: "https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=1200&q=85",
+          subOptions: [
+            "Instalación de disco sólido SSD o NVMe M.2",
+            "Ampliación de memoria RAM (PC o Portátil)",
+            "Instalación de tarjeta gráfica (GPU) o fuente de poder",
+            "Traslado de piezas a un nuevo chasis / gabinete"
+          ]
+        },
+        {
+          id: "optimizacion",
+          index: "04",
+          category: "SISTEMA, APPS & GAMING",
+          title: "Formateo, Optimización, Programas & Juegos",
+          shortTitle: "Formateo, Programas y Juegos",
+          desc: "Instalación limpia de Windows 10 o Windows 11 con copia de seguridad de tus archivos, drivers oficiales al día, suite de programas de oficina/estudio/diseño, instalación de juegos y optimización del sistema para lograr más FPS y cero tirones.",
+          metricLabel: "ESTABILIDAD SISTEMA",
+          metricValue: "CERO PROCESOS BASURA",
+          mode: "PRESENCIAL O REMOTO",
+          time: "2 A 4 HORAS",
+          img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=85",
+          subOptions: [
+            "Formateo e instalación limpia de Windows 10 / 11",
+            "Respaldo seguro de mis documentos y fotos",
+            "Instalación de programas (Office, diseño, estudio, etc.)",
+            "Instalación de juegos y optimización de FPS / Drivers"
+          ]
+        },
+        {
+          id: "web",
+          index: "05",
+          category: "DESARROLLO DIGITAL",
+          title: "Diseño y Creación de Páginas Web Modernas",
+          shortTitle: "Creación de Página Web",
+          desc: "Diseñamos páginas web rápidas, atractivas y adaptadas a celulares para negocios, emprendimientos o marcas personales. Con botón directo a WhatsApp, catálogo de servicios, buena velocidad de carga y lista para publicar en tu propio dominio.",
+          metricLabel: "DISEÑO & VELOCIDAD",
+          metricValue: "100% ADAPTADO A MÓVIL",
+          mode: "100% ONLINE / PERSONALIZADO",
+          time: "3 A 7 DÍAS",
+          img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=85",
+          subOptions: [
+            "Landing Page moderna para mostrar mi negocio o servicios",
+            "Sitio web empresarial con varias secciones y galería",
+            "Integración de botón y formulario directo a WhatsApp",
+            "Asesoría con dominio (.com) y publicación en internet"
+          ]
+        }
+      ]
+    };
+
+    const state = {
+      activeDiagnosticIndex: 0,
+      activeServiceId: CONFIG.services[0].id,
+      selectedDevice: CONFIG.deviceTypes[0],
+      selectedSubOptions: new Set([CONFIG.services[0].subOptions[0], CONFIG.services[0].subOptions[1]])
+    };
+
+    function initCyberCanvas() {
+      const canvas = document.getElementById("cyber-canvas");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+
+      const pointer = { x: width / 2, y: height / 2, active: false };
+      window.addEventListener("mousemove", (e) => {
+        pointer.x = e.clientX;
+        pointer.y = e.clientY;
+        pointer.active = true;
+      });
+
+      window.addEventListener("resize", () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      const nodeCount = Math.min(48, Math.floor(width / 32));
+      const nodes = Array.from({ length: nodeCount }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: (Math.random() - 0.5) * 0.45,
+        size: Math.random() > 0.7 ? 2.5 : 1.5
+      }));
+
+      function draw() {
+        ctx.clearRect(0, 0, width, height);
+
+        for (let i = 0; i < nodes.length; i++) {
+          const n = nodes[i];
+          n.x += n.vx;
+          n.y += n.vy;
+
+          if (n.x < 0 || n.x > width) n.vx *= -1;
+          if (n.y < 0 || n.y > height) n.vy *= -1;
+
+          // Dibujar nodo en cian eléctrico (#00f0ff) y verde estado (#00ff9d)
+          ctx.fillStyle = i % 4 === 0 ? "rgba(0, 255, 157, 0.65)" : "rgba(0, 240, 255, 0.55)";
+          ctx.fillRect(n.x - n.size / 2, n.y - n.size / 2, n.size, n.size);
+
+          // Conectar con nodos cercanos
+          for (let j = i + 1; j < nodes.length; j++) {
+            const m = nodes[j];
+            const dx = n.x - m.x;
+            const dy = n.y - m.y;
+            const dist = Math.hypot(dx, dy);
+
+            if (dist < 145) {
+              const alpha = (1 - dist / 145) * 0.16;
+              ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(n.x, n.y);
+              ctx.lineTo(m.x, m.y);
+              ctx.stroke();
+            }
+          }
+
+          // Conexión reactiva al cursor
+          if (pointer.active) {
+            const pdx = n.x - pointer.x;
+            const pdy = n.y - pointer.y;
+            const pDist = Math.hypot(pdx, pdy);
+            if (pDist < 180) {
+              const alpha = (1 - pDist / 180) * 0.35;
+              ctx.strokeStyle = `rgba(0, 255, 157, ${alpha})`;
+              ctx.beginPath();
+              ctx.moveTo(n.x, n.y);
+              ctx.lineTo(pointer.x, pointer.y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+    }
+
+    const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789//[]<>";
+    function scrambleText(element, finalString, duration = 420) {
+      if (!element) return;
+      const startTime = performance.now();
+      function update(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const revealCount = Math.floor(progress * finalString.length);
+        let output = "";
+        for (let i = 0; i < finalString.length; i++) {
+          if (finalString[i] === " ") {
+            output += " ";
+          } else if (i < revealCount) {
+            output += finalString[i];
+          } else {
+            output += CHARS[Math.floor(Math.random() * CHARS.length)];
+          }
+        }
+        element.textContent = output;
+        if (progress < 1) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    }
+
+    function initScrambleEffects() {
+      document.querySelectorAll(".scramble-hover").forEach((el) => {
+        const original = el.getAttribute("data-text") || el.textContent;
+        el.addEventListener("mouseenter", () => scrambleText(el, `// ${original}`, 360));
+      });
+
+      const heroTitle = document.querySelector(".scramble-init");
+      if (heroTitle) {
+        scrambleText(heroTitle, "POTENCIA REAL", 700);
+      }
+    }
+
+    function initDiagnosticScanner() {
+      const triggersContainer = document.getElementById("diagnostic-triggers");
+      const codeEl = document.getElementById("scan-code");
+      const titleEl = document.getElementById("scan-title");
+      const diagEl = document.getElementById("scan-diagnosis");
+      const barsEl = document.getElementById("scan-bars");
+      const tagEl = document.getElementById("scan-solution-tag");
+      const actionBtn = document.getElementById("scan-action-btn");
+
+      function renderDiagnostic(index) {
+        state.activeDiagnosticIndex = index;
+        const item = CONFIG.diagnostics[index];
+
+        // Actualizar botones de casos
+        triggersContainer.innerHTML = CONFIG.diagnostics
+          .map((d, idx) => {
+            const active = idx === index;
+            return `
+              <button
+                type="button"
+                data-diag-index="${idx}"
+                class="hud-option w-full text-left py-4 px-4 flex items-center justify-between gap-4 ${active ? "active" : "text-slate-400"}"
+              >
+                <div>
+                  <span class="font-mono-hud text-[10px] ${active ? "text-[#00f0ff]" : "text-slate-500"} block mb-1">${d.code}</span>
+                  <span class="font-display text-sm sm:text-base font-medium ${active ? "text-white" : "text-slate-300"}">${d.symptom}</span>
+                </div>
+                <span class="font-mono-hud text-xs ${active ? "text-[#00f0ff]" : "text-slate-600"}">→</span>
+              </button>
+            `;
+          })
+          .join("");
+
+        // Animar textos del visor de diagnóstico
+        scrambleText(codeEl, `ANÁLISIS // ${item.code}`, 350);
+        titleEl.textContent = item.title;
+        diagEl.textContent = item.diagnosis;
+        tagEl.textContent = item.solutionTag;
+
+        barsEl.innerHTML = item.bars
+          .map(
+            (b) => `
+            <div class="hud-line-l pl-4">
+              <span class="font-mono-hud text-[10px] text-slate-400 uppercase block mb-1">${b.label}</span>
+              <span class="font-display text-xl font-bold text-[#00f0ff]">${b.val}</span>
+            </div>
+          `
+          )
+          .join("");
+
+        // Conectar triggers
+        triggersContainer.querySelectorAll("[data-diag-index]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            renderDiagnostic(Number(btn.getAttribute("data-diag-index")));
+          });
+        });
+
+        // Botón para saltar al cotizador con ese servicio preseleccionado
+        actionBtn.onclick = () => {
+          selectServiceInQuote(item.targetServiceId, true);
+        };
+      }
+
+      renderDiagnostic(0);
+    }
+
+    function initServicesShowcase() {
+      const listEl = document.getElementById("services-list");
+      const stageIndex = document.getElementById("stage-index");
+      const stageCat = document.getElementById("stage-category");
+      const stageImg = document.getElementById("stage-img");
+      const stageMetricLabel = document.getElementById("stage-metric-label");
+      const stageMetricValue = document.getElementById("stage-metric-value");
+      const stageMode = document.getElementById("stage-mode");
+      const stageTime = document.getElementById("stage-time");
+      const stageCta = document.getElementById("stage-cta");
+      const stageCtaText = document.getElementById("stage-cta-text");
+
+      function updateStage(service) {
+        scrambleText(stageIndex, `SERVICIO // ${service.index}`, 300);
+        stageCat.textContent = service.category;
+        stageImg.src = service.img;
+        stageMetricLabel.textContent = service.metricLabel;
+        stageMetricValue.textContent = service.metricValue;
+        stageMode.textContent = service.mode;
+        stageTime.textContent = service.time;
+        stageCtaText.textContent = `Cotizar: ${service.shortTitle}`;
+        stageCta.onclick = () => selectServiceInQuote(service.id, true);
+
+        // Resaltar fila activa
+        listEl.querySelectorAll("[data-service-row]").forEach((row) => {
+          const isCurrent = row.getAttribute("data-service-row") === service.id;
+          row.classList.toggle("bg-[#00f0ff]/[0.05]", isCurrent);
+          row.classList.toggle("border-l-2", isCurrent);
+          row.classList.toggle("border-l-[#00f0ff]", isCurrent);
+        });
+      }
+
+      listEl.innerHTML = CONFIG.services
+        .map(
+          (s) => `
+          <article
+            data-service-row="${s.id}"
+            class="py-8 px-4 sm:px-6 transition-all duration-300 cursor-pointer group hover:bg-white/[0.02]"
+          >
+            <div class="flex flex-wrap items-center justify-between gap-2 font-mono-hud text-xs text-slate-400 mb-3">
+              <span class="text-[#00f0ff]">// ${s.index} — ${s.category}</span>
+              <span>[${s.metricValue}]</span>
+            </div>
+
+            <div class="flex items-start justify-between gap-4">
+              <h3 class="font-display text-2xl sm:text-3xl font-bold text-white group-hover:text-[#00f0ff] transition-colors">
+                ${s.title}
+              </h3>
+              <span class="font-mono-hud text-lg text-slate-500 group-hover:text-[#00f0ff] group-hover:translate-x-1 transition-all">↗</span>
+            </div>
+
+            <p class="text-slate-300 text-sm sm:text-base font-light leading-relaxed mt-3 mb-5">
+              ${s.desc}
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono-hud text-xs text-slate-300">
+              ${s.subOptions
+                .map(
+                  (opt) => `
+                  <div class="flex items-center gap-2">
+                    <span class="text-[#00ff9d]">+</span>
+                    <span>${opt}</span>
+                  </div>
+                `
+                )
+                .join("")}
+            </div>
+          </article>
+        `
+        )
+        .join("");
+
+      listEl.querySelectorAll("[data-service-row]").forEach((row) => {
+        const id = row.getAttribute("data-service-row");
+        const service = CONFIG.services.find((s) => s.id === id);
+        row.addEventListener("mouseenter", () => updateStage(service));
+        row.addEventListener("click", () => {
+          updateStage(service);
+          selectServiceInQuote(service.id, true);
+        });
+      });
+
+      updateStage(CONFIG.services[0]);
+    }
+
+    function initPerformanceComparator() {
+      const slider = document.getElementById("perf-slider");
+      const updateMetrics = () => {
+        const pct = Number(slider.value) / 100; // 0 = Sin mantenimiento, 1 = Optimizado VinDev
+
+        const temp = Math.round(86 - pct * 25);       // De 86°C a 61°C
+        const boot = Math.round(92 - pct * 81);       // De 92 seg a 11 seg
+        const fpsBoost = Math.round(pct * 45);        // Hasta +45% estabilidad
+
+        document.getElementById("slider-label").textContent =
+          pct === 0 ? "0% (PC CON POLVO Y SISTEMA LENTO)" : `${Math.round(pct * 100)}% OPTIMIZADO EN VINDEV`;
+
+        document.getElementById("val-temp").textContent = temp;
+        document.getElementById("val-boot").textContent = boot;
+        document.getElementById("val-fps").textContent = `+${fpsBoost}%`;
+        document.getElementById("val-noise").textContent =
+          pct > 0.6 ? "SILENCIOSO" : pct > 0.25 ? "MODERADO" : "ALTO RUIDO";
+
+        document.getElementById("bar-temp").style.width = `${Math.max(25, 95 - pct * 60)}%`;
+        document.getElementById("bar-boot").style.width = `${Math.max(15, 95 - pct * 80)}%`;
+        document.getElementById("bar-fps").style.width = `${Math.max(15, pct * 95)}%`;
+        document.getElementById("bar-noise").style.width = `${Math.max(20, 95 - pct * 73)}%`;
+      };
+
+      slider.addEventListener("input", updateMetrics);
+      updateMetrics();
+    }
+
+    function getActiveService() {
+      return CONFIG.services.find((s) => s.id === state.activeServiceId) || CONFIG.services[0];
+    }
+
+    function selectServiceInQuote(serviceId, scrollToQuote = false) {
+      state.activeServiceId = serviceId;
+      const srv = getActiveService();
+      // Preseleccionar las 2 primeras opciones del servicio elegido
+      state.selectedSubOptions = new Set(srv.subOptions.slice(0, 2));
+
+      if (serviceId === "web") {
+        state.selectedDevice = "Sitio / Página Web";
+      } else if (state.selectedDevice === "Sitio / Página Web") {
+        state.selectedDevice = CONFIG.deviceTypes[0];
+      }
+
+      renderQuoteBuilder();
+
+      if (scrollToQuote) {
+        document.getElementById("cotizador").scrollIntoView({ behavior: "smooth" });
+      }
+    }
+
+    function buildSummaryMessage() {
+      const srv = getActiveService();
+      const chosen = Array.from(state.selectedSubOptions);
+      const notes = document.getElementById("quote-notes")?.value.trim() || "";
+
+      const optionsList = chosen.length > 0 ? chosen.join(" + ") : "Asesoría general del servicio";
+      let msg = `Hola ${CONFIG.brandName}, quiero cotizar el servicio de *${srv.shortTitle}* para *${state.selectedDevice}*. Me interesa incluir: ${optionsList}.`;
+      if (notes) {
+        msg += ` Detalles adicionales: "${notes}".`;
+      }
+      return msg;
+    }
+
+    function renderQuoteBuilder() {
+      const servicesEl = document.getElementById("quote-services");
+      const devicesEl = document.getElementById("quote-devices");
+      const subOptionsEl = document.getElementById("quote-suboptions");
+      const previewEl = document.getElementById("quote-summary-preview");
+
+      const currentService = getActiveService();
+
+      // Paso 1: Servicios
+      servicesEl.innerHTML = CONFIG.services
+        .map((s) => {
+          const active = s.id === state.activeServiceId;
+          return `
+            <button
+              type="button"
+              data-q-service="${s.id}"
+              class="hud-option w-full text-left py-3 px-4 flex items-center justify-between font-mono-hud text-xs ${active ? "active" : "text-slate-400"}"
+            >
+              <span>${s.index} // ${s.shortTitle}</span>
+              <span class="${active ? "text-[#00f0ff]" : "text-slate-600"}">${active ? "● ACTIVO" : "ELEGIR"}</span>
+            </button>
+          `;
+        })
+        .join("");
+
+      // Paso 2: Tipo de Equipo
+      devicesEl.innerHTML = CONFIG.deviceTypes
+        .map((dev) => {
+          const active = dev === state.selectedDevice;
+          return `
+            <button
+              type="button"
+              data-q-device="${dev}"
+              class="hud-option py-3 px-3 text-left font-mono-hud text-xs ${active ? "active" : "text-slate-400"}"
+            >
+              <span class="block text-[10px] ${active ? "text-[#00f0ff]" : "text-slate-500"}">MODALIDAD</span>
+              <span>${dev}</span>
+            </button>
+          `;
+        })
+        .join("");
+
+      // Paso 3: Sub-opciones del servicio
+      subOptionsEl.innerHTML = currentService.subOptions
+        .map((opt) => {
+          const checked = state.selectedSubOptions.has(opt);
+          return `
+            <button
+              type="button"
+              data-q-sub="${opt}"
+              class="hud-option p-4 text-left flex items-start gap-3 ${checked ? "active" : "text-slate-400"}"
+            >
+              <span class="font-mono-hud text-xs mt-0.5 ${checked ? "text-[#00ff9d]" : "text-slate-600"}">
+                ${checked ? "[✓]" : "[ ]"}
+              </span>
+              <span class="text-xs sm:text-sm leading-snug">${opt}</span>
+            </button>
+          `;
+        })
+        .join("");
+
+      previewEl.textContent = buildSummaryMessage();
+
+      // Eventos
+      servicesEl.querySelectorAll("[data-q-service]").forEach((btn) => {
+        btn.addEventListener("click", () => selectServiceInQuote(btn.getAttribute("data-q-service"), false));
+      });
+
+      devicesEl.querySelectorAll("[data-q-device]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          state.selectedDevice = btn.getAttribute("data-q-device");
+          renderQuoteBuilder();
+        });
+      });
+
+      subOptionsEl.querySelectorAll("[data-q-sub]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const val = btn.getAttribute("data-q-sub");
+          if (state.selectedSubOptions.has(val)) {
+            state.selectedSubOptions.delete(val);
+          } else {
+            state.selectedSubOptions.add(val);
+          }
+          renderQuoteBuilder();
+        });
+      });
+    }
+
+    function initQuoteActions() {
+      const notesInput = document.getElementById("quote-notes");
+      const previewEl = document.getElementById("quote-summary-preview");
+      const copyBtn = document.getElementById("btn-copy-quote");
+      const copyLabel = document.getElementById("copy-label");
+      const waBtn = document.getElementById("btn-wa-quote");
+
+      notesInput.addEventListener("input", () => {
+        previewEl.textContent = buildSummaryMessage();
+      });
+
+      copyBtn.addEventListener("click", () => {
+        const text = buildSummaryMessage();
+        const temp = document.createElement("textarea");
+        temp.value = text;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand("copy");
+        document.body.removeChild(temp);
+
+        copyLabel.textContent = "¡Copiado al portapapeles!";
+        setTimeout(() => {
+          copyLabel.textContent = "Copiar Texto";
+        }, 2200);
+      });
+
+      waBtn.addEventListener("click", () => {
+        const text = encodeURIComponent(buildSummaryMessage());
+        window.open(`https://wa.me/${CONFIG.whatsappNumber}?text=${text}`, "_blank", "noopener,noreferrer");
+      });
+    }
+
+    function initScrollAndReveal() {
+      const bar = document.getElementById("scroll-laser-bar");
+      window.addEventListener(
+        "scroll",
+        () => {
+          const max = document.documentElement.scrollHeight - window.innerHeight;
+          const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+          bar.style.width = `${pct}%`;
+        },
+        { passive: true }
+      );
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+
+      document.querySelectorAll(".cyber-reveal").forEach((el) => observer.observe(el));
+    }
+
+    // Inicialización General
+    window.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("nav-brand").textContent = CONFIG.brandName;
+      document.getElementById("footer-brand").textContent = CONFIG.brandName;
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      initCyberCanvas();
+      initScrambleEffects();
+      initDiagnosticScanner();
+      initServicesShowcase();
+      initPerformanceComparator();
+      renderQuoteBuilder();
+      initQuoteActions();
+      initScrollAndReveal();
+    });
+  </script>
+</body>
+</html>
